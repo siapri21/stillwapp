@@ -1,23 +1,47 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { exploreCategories, skills, type ExploreCategory } from '../data/mock.ts'
+import { BASE_URL } from '../api/config.js'
+import type { ApiSkill, ApiUser } from '../api/types.ts'
+import { userFullName } from '../api/types.ts'
+import { exploreCategories, type ExploreCategory } from '../data/categories.ts'
 import { CategoryCard } from '../ui/CategoryCard.tsx'
 import { OfferCard } from '../ui/OfferCard.tsx'
 import { TagChip } from '../ui/TagChip.tsx'
 
 export function Explore() {
+  const [skills, setSkills] = useState<ApiSkill[]>([])
+  const [users, setUsers] = useState<ApiUser[]>([])
+  const [loading, setLoading] = useState(true)
   const [selectedCategory, setSelectedCategory] = useState<ExploreCategory | null>(null)
 
+  useEffect(() => {
+    Promise.all([
+      fetch(`${BASE_URL}/skills`).then((res) => res.json() as Promise<ApiSkill[]>),
+      fetch(`${BASE_URL}/users`).then((res) => res.json() as Promise<ApiUser[]>),
+    ])
+      .then(([skillsData, usersData]) => {
+        setSkills(skillsData)
+        setUsers(usersData)
+      })
+      .finally(() => setLoading(false))
+  }, [])
+
   const filteredSkills = selectedCategory
-    ? skills.filter((skill) => skill.exploreCategory === selectedCategory)
+    ? skills.filter((skill) => skill.category === selectedCategory)
     : skills
+
+  const authorName = (userId: number) => {
+    const user = users.find((u) => u.id === userId)
+    return user ? userFullName(user) : 'Anonyme'
+  }
 
   return (
     <>
       <header className="sticky top-0 z-30 bg-[var(--sw-bg)]/90 backdrop-blur supports-[backdrop-filter]:bg-[var(--sw-bg)]/70">
         <div className="mx-auto flex w-full max-w-6xl items-center gap-3 px-4 py-3 md:px-6">
           <div className="relative">
-            <img src="/logoskillwapp.png" alt="SkillWapp" className="h-10 w-10 rounded-full object-cover shadow-sm" />            <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-[var(--sw-bg)]" />
+            <img src="/logoskillwapp.png" alt="SkillWapp" className="h-10 w-10 rounded-full object-cover shadow-sm" />
+            <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-[var(--sw-bg)]" />
           </div>
 
           <div className="ml-auto flex items-center gap-2">
@@ -100,11 +124,15 @@ export function Explore() {
           <div className="flex items-center justify-between gap-4">
             <h2 className="text-lg font-semibold text-[var(--sw-text-strong)] md:text-xl">Offres de swap</h2>
             {selectedCategory ? (
-              <span className="text-sm text-[var(--sw-muted)]">{filteredSkills.length} résultat{filteredSkills.length !== 1 ? 's' : ''}</span>
+              <span className="text-sm text-[var(--sw-muted)]">
+                {filteredSkills.length} résultat{filteredSkills.length !== 1 ? 's' : ''}
+              </span>
             ) : null}
           </div>
           <div className="mt-4 flex flex-col gap-4">
-            {filteredSkills.length === 0 ? (
+            {loading ? (
+              <p className="text-sm text-[var(--sw-muted)]">Chargement…</p>
+            ) : filteredSkills.length === 0 ? (
               <p className="rounded-2xl bg-white p-6 text-center text-sm text-[var(--sw-muted)] shadow-sm ring-1 ring-black/5">
                 Aucune offre dans cette catégorie pour le moment.
               </p>
@@ -113,10 +141,11 @@ export function Explore() {
                 <Link key={skill.id} to={`/explore/${skill.id}`} className="block">
                   <OfferCard
                     title={skill.title}
-                    author={skill.author}
-                    duration="1h pour 1h"
+                    author={authorName(skill.userId)}
+                    duration={skill.duration}
                     rating={skill.rating}
-                    category={skill.exploreCategory}
+                    category={skill.category}
+                    image={skill.image}
                   />
                 </Link>
               ))

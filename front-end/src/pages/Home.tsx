@@ -1,11 +1,59 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { peers, skills } from '../data/mock.ts'
+import { BASE_URL } from '../api/config.js'
+import type { ApiSkill, ApiUser } from '../api/types.ts'
+import { userFullName } from '../api/types.ts'
 import { CoverImage } from '../ui/CoverImage.tsx'
 import { PeerRow } from '../ui/PeerRow.tsx'
 import { SkillCard } from '../ui/SkillCard.tsx'
 import { imageForHero } from '../utils/images.ts'
 
+type Peer = {
+  id: string
+  name: string
+  offer: string
+  distance: string
+  place: string
+  rating: number
+  online?: boolean
+}
+
 export function Home() {
+  const [skills, setSkills] = useState<ApiSkill[]>([])
+  const [peers, setPeers] = useState<Peer[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    Promise.all([
+      fetch(`${BASE_URL}/skills`).then((res) => res.json() as Promise<ApiSkill[]>),
+      fetch(`${BASE_URL}/users`).then((res) => res.json() as Promise<ApiUser[]>),
+    ])
+      .then(([skillsData, usersData]) => {
+        const topSkills = [...skillsData]
+          .sort((a, b) => (b.swapCount ?? b.swaps ?? 0) - (a.swapCount ?? a.swaps ?? 0))
+          .slice(0, 3)
+        setSkills(topSkills)
+
+        const nearbyPeers = usersData
+          .filter((u) => u.id !== 1)
+          .slice(0, 3)
+          .map((user) => {
+            const offer = skillsData.find((s) => s.userId === user.id)?.title ?? 'Compétence'
+            return {
+              id: String(user.id),
+              name: userFullName(user),
+              offer,
+              distance: user.distance,
+              place: user.location,
+              rating: user.rating,
+              online: user.online,
+            }
+          })
+        setPeers(nearbyPeers)
+      })
+      .finally(() => setLoading(false))
+  }, [])
+
   return (
     <>
       <header className="sticky top-0 z-30 bg-[var(--sw-bg)]/90 backdrop-blur supports-[backdrop-filter]:bg-[var(--sw-bg)]/70">
@@ -46,28 +94,25 @@ export function Home() {
 
       <main className="mx-auto w-full max-w-6xl px-4 pb-28 pt-4 md:px-6 md:pt-6">
         <section className="relative overflow-hidden rounded-3xl p-5 text-white shadow-[0_18px_40px_rgba(0,0,0,0.12)] md:p-7">
-          <CoverImage
-            src={imageForHero(900, 360)}
-            className="absolute inset-0 h-full w-full object-cover"
-          />
+          <CoverImage src={imageForHero(900, 360)} className="absolute inset-0 h-full w-full object-cover" />
           <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(230,0,126,0.82),rgba(255,122,55,0.78))]" />
           <div className="relative">
-          <h1 className="text-balance text-2xl font-semibold leading-tight md:text-4xl">
-            Prêt à troquer tes talents&nbsp;?
-          </h1>
-          <div className="mt-4 flex items-center gap-3 rounded-2xl bg-white/95 p-3 text-[var(--sw-text-strong)] shadow-sm md:mt-5 md:max-w-xl">
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-black/5">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" strokeWidth="2" />
-                <path d="M21 21l-4.2-4.2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-              </svg>
-            </span>
-            <input
-              className="w-full bg-transparent text-[15px] outline-none placeholder:text-[var(--sw-muted)] md:text-base"
-              placeholder="Trouver une compétence…"
-              aria-label="Trouver une compétence"
-            />
-          </div>
+            <h1 className="text-balance text-2xl font-semibold leading-tight md:text-4xl">
+              Prêt à troquer tes talents&nbsp;?
+            </h1>
+            <div className="mt-4 flex items-center gap-3 rounded-2xl bg-white/95 p-3 text-[var(--sw-text-strong)] shadow-sm md:mt-5 md:max-w-xl">
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-black/5">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" strokeWidth="2" />
+                  <path d="M21 21l-4.2-4.2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+              </span>
+              <input
+                className="w-full bg-transparent text-[15px] outline-none placeholder:text-[var(--sw-muted)] md:text-base"
+                placeholder="Trouver une compétence…"
+                aria-label="Trouver une compétence"
+              />
+            </div>
           </div>
         </section>
 
@@ -79,11 +124,24 @@ export function Home() {
             </Link>
           </div>
 
-          <div className="mt-4 -mx-4 flex gap-4 overflow-x-auto px-4 pb-2 md:mx-0 md:grid md:grid-cols-2 md:gap-5 md:overflow-visible md:px-0 lg:grid-cols-3">
-            {skills.slice(0, 3).map((skill) => (
-              <SkillCard key={skill.id} {...skill} className="lg:block" />
-            ))}
-          </div>
+          {loading ? (
+            <p className="mt-4 text-sm text-[var(--sw-muted)]">Chargement…</p>
+          ) : (
+            <div className="mt-4 -mx-4 flex gap-4 overflow-x-auto px-4 pb-2 md:mx-0 md:grid md:grid-cols-2 md:gap-5 md:overflow-visible md:px-0 lg:grid-cols-3">
+              {skills.map((skill) => (
+                <SkillCard
+                  key={skill.id}
+                  id={skill.id}
+                  tag={skill.category}
+                  title={skill.title}
+                  subtitle={skill.description.slice(0, 60) + (skill.description.length > 60 ? '…' : '')}
+                  rating={skill.rating}
+                  image={skill.image}
+                  className="lg:block"
+                />
+              ))}
+            </div>
+          )}
         </section>
 
         <section className="mt-7">
@@ -101,19 +159,23 @@ export function Home() {
           </div>
 
           <div className="mt-4 rounded-2xl bg-white shadow-sm ring-1 ring-black/5">
-            {peers.map((peer, i) => (
-              <div key={peer.id}>
-                {i > 0 ? <div className="h-px bg-black/5" /> : null}
-                <PeerRow {...peer} />
-              </div>
-            ))}
+            {loading ? (
+              <p className="px-4 py-6 text-sm text-[var(--sw-muted)]">Chargement…</p>
+            ) : (
+              peers.map((peer, i) => (
+                <div key={peer.id}>
+                  {i > 0 ? <div className="h-px bg-black/5" /> : null}
+                  <PeerRow {...peer} />
+                </div>
+              ))
+            )}
           </div>
         </section>
 
         <Link
           to="/auth"
           className="fixed bottom-24 right-5 z-40 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--sw-orange)] text-white shadow-[0_16px_32px_rgba(0,0,0,0.18)] active:translate-y-px md:bottom-8"
-          aria-label="Ajouter"
+          aria-label="Connexion / Inscription"
         >
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />

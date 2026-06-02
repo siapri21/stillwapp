@@ -1,17 +1,20 @@
 import { Link } from 'react-router-dom'
 import { CoverImage } from './CoverImage.tsx'
-import { imageForTag } from '../utils/images.ts'
+import { imageForCategory } from '../utils/images.ts'
 
 type SkillCardProps = {
-  id: string
+  id: string | number
   tag: string
   title: string
   subtitle: string
   rating: number
+  image?: string
   className?: string
 }
 
-export function SkillCard({ id, tag, title, subtitle, rating, className }: SkillCardProps) {
+export function SkillCard({ id, tag, title, subtitle, rating, image, className }: SkillCardProps) {
+  const imageSrc = image ?? imageForCategory(tag)
+
   return (
     <article
       className={[
@@ -21,10 +24,7 @@ export function SkillCard({ id, tag, title, subtitle, rating, className }: Skill
       ].join(' ')}
     >
       <div className="relative h-32 w-full overflow-hidden">
-        <CoverImage
-          src={imageForTag(tag)}
-          className="h-full w-full object-cover"
-        />
+        <CoverImage src={imageSrc} className="h-full w-full object-cover" />
         <span className="absolute left-3 top-3 rounded-full bg-[var(--sw-pink)] px-3 py-1 text-xs font-semibold text-white shadow-sm">
           {tag}
         </span>

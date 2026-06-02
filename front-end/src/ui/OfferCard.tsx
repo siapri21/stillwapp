@@ -7,10 +7,11 @@ type OfferCardProps = {
   duration: string
   rating: number
   category?: string
+  image?: string
 }
 
-export function OfferCard({ title, author, duration, rating, category }: OfferCardProps) {
-  const imageSrc = category ? imageForCategory(category, 96, 96) : imageForCategory('skills', 96, 96)
+export function OfferCard({ title, author, duration, rating, category, image }: OfferCardProps) {
+  const imageSrc = image ?? (category ? imageForCategory(category, 96, 96) : imageForCategory('skills', 96, 96))
 
   return (
     <article className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-black/5">

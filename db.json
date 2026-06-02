@@ -1,0 +1,120 @@
+{
+    "users": [
+      { "id": 1, "name": "Léo", "surname": "Bernard", "university": "Sorbonne Université", "email": "leo@student.edu", "avatar": "LB", "color": "#E8B4C8", "rating": 4.8, "swaps": 24, "friends": 15, "level": 4, "xp": 450, "xpNext": 500, "title": "Master Swapper", "online": true, "location": "Campus Centre", "distance": "500m" },
+      { "id": 2, "name": "Sarah", "surname": "Klift", "university": "Paris Dauphine", "email": "sarah@student.edu", "avatar": "SK", "color": "#B4C8E8", "rating": 5.0, "swaps": 31, "friends": 22, "level": 6, "xp": 820, "xpNext": 1000, "title": "Skill Guru", "online": true, "location": "Résidence A", "distance": "1.2km" },
+      { "id": 3, "name": "Marc", "surname": "Dubois", "university": "Sciences Po", "email": "marc@student.edu", "avatar": "MD", "color": "#C8E8B4", "rating": 4.6, "swaps": 18, "friends": 9, "level": 3, "xp": 310, "xpNext": 400, "title": "Swapper", "online": false, "location": "Bibliothèque", "distance": "2.5km" },
+      { "id": 4, "name": "Alex", "surname": "Rivera", "university": "CentraleSupélec", "email": "alex@student.edu", "avatar": "AR", "color": "#E8C8B4", "rating": 4.9, "swaps": 42, "friends": 30, "level": 7, "xp": 950, "xpNext": 1200, "title": "Top Helper", "online": true, "location": "Campus Library", "distance": "200m" },
+      { "id": 5, "name": "Sofia", "surname": "Chen", "university": "ESSEC", "email": "sofia@student.edu", "avatar": "SC", "color": "#D4B4E8", "rating": 4.7, "swaps": 15, "friends": 11, "level": 3, "xp": 280, "xpNext": 400, "title": "Swapper", "online": true, "location": "Science Hub", "distance": "500m" },
+      { "id": 6, "name": "Jordan", "surname": "Blake", "university": "Beaux-Arts Paris", "email": "jordan@student.edu", "avatar": "JB", "color": "#E8E4B4", "rating": 4.5, "swaps": 9, "friends": 6, "level": 2, "xp": 180, "xpNext": 250, "title": "Newbie", "online": false, "location": "Art Studio", "distance": "1.2km" },
+      { "id": 7, "name": "Luna", "surname": "Storm", "university": "HEC Paris", "email": "luna@student.edu", "avatar": "LS", "color": "#B4E8D4", "rating": 4.9, "swaps": 67, "friends": 45, "level": 9, "xp": 12890, "xpNext": 15000, "title": "Legend", "online": true, "location": "Main Hall", "distance": "300m" },
+      { "id": 8, "name": "Kai", "surname": "Jensen", "university": "Polytechnique", "email": "kai@student.edu", "avatar": "KJ", "color": "#E8B4B4", "rating": 4.8, "swaps": 55, "friends": 38, "level": 8, "xp": 11240, "xpNext": 12000, "title": "Expert", "online": false, "location": "Lab C", "distance": "800m" },
+      { "id": 9, "name": "Aria", "surname": "Vane", "university": "Paris 8", "email": "aria@student.edu", "avatar": "AV", "color": "#B4B4E8", "rating": 4.7, "swaps": 48, "friends": 29, "level": 7, "xp": 9800, "xpNext": 10500, "title": "Top Helper", "online": true, "location": "Media Center", "distance": "1km" },
+      { "id": 10, "name": "Emma", "surname": "Blanc", "university": "ESCP", "email": "emma@student.edu", "avatar": "EB", "color": "#E8D4B4", "rating": 4.9, "swaps": 22, "friends": 17, "level": 5, "xp": 620, "xpNext": 800, "title": "Rising Star", "online": true, "location": "Café Central", "distance": "400m" },
+      { "id": 11, "name": "Lucas", "surname": "Martin", "university": "Conservatoire", "email": "lucas@student.edu", "avatar": "LM", "color": "#F0C8D4", "rating": 4.9, "swaps": 28, "friends": 20, "level": 5, "xp": 700, "xpNext": 800, "title": "Musician Pro", "online": true, "location": "Salle de Musique", "distance": "600m" },
+      { "id": 12, "name": "Mia", "surname": "Thompson", "university": "Paris 3", "email": "mia@student.edu", "avatar": "MT", "color": "#C8F0D4", "rating": 4.6, "swaps": 14, "friends": 8, "level": 3, "xp": 320, "xpNext": 400, "title": "Swapper", "online": false, "location": "Amphi B", "distance": "900m" },
+      { "id": 13, "name": "Noah", "surname": "Petit", "university": "EPITA", "email": "noah@student.edu", "avatar": "NP", "color": "#D4C8F0", "rating": 4.7, "swaps": 33, "friends": 25, "level": 6, "xp": 880, "xpNext": 1000, "title": "Dev Master", "online": true, "location": "Salle Serveur", "distance": "1.5km" },
+      { "id": 14, "name": "Zoe", "surname": "Dupont", "university": "STRATE Design", "email": "zoe@student.edu", "avatar": "ZD", "color": "#F0E8C8", "rating": 5.0, "swaps": 19, "friends": 13, "level": 4, "xp": 460, "xpNext": 500, "title": "Design Queen", "online": true, "location": "Studio Design", "distance": "700m" },
+      { "id": 15, "name": "Tom", "surname": "Leroy", "university": "Sorbonne", "email": "tom@student.edu", "avatar": "TL", "color": "#C8E8F0", "rating": 4.4, "swaps": 7, "friends": 4, "level": 1, "xp": 90, "xpNext": 150, "title": "Newbie", "online": false, "location": "BU", "distance": "2km" },
+      { "id": 16, "name": "Jade", "surname": "Moreau", "university": "Paris Dauphine", "email": "jade@student.edu", "avatar": "JM", "color": "#F0D4E8", "rating": 4.8, "swaps": 26, "friends": 19, "level": 5, "xp": 750, "xpNext": 800, "title": "Finance Pro", "online": true, "location": "Amphi Finance", "distance": "1.1km" },
+      { "id": 17, "name": "Ryan", "surname": "Costa", "university": "EFREI", "email": "ryan@student.edu", "avatar": "RC", "color": "#D4F0E8", "rating": 4.5, "swaps": 11, "friends": 7, "level": 2, "xp": 210, "xpNext": 250, "title": "Coder", "online": true, "location": "Fablab", "distance": "1.8km" },
+      { "id": 18, "name": "Inès", "surname": "Faure", "university": "Sciences Po", "email": "ines@student.edu", "avatar": "IF", "color": "#E8F0D4", "rating": 4.7, "swaps": 20, "friends": 14, "level": 4, "xp": 480, "xpNext": 500, "title": "Swapper", "online": false, "location": "Salle Conf", "distance": "2.2km" },
+      { "id": 19, "name": "Hugo", "surname": "Simon", "university": "CentraleSupélec", "email": "hugo@student.edu", "avatar": "HS", "color": "#F0E8D4", "rating": 4.6, "swaps": 16, "friends": 10, "level": 3, "xp": 350, "xpNext": 400, "title": "Engineer", "online": true, "location": "Labo Physique", "distance": "900m" },
+      { "id": 20, "name": "Camille", "surname": "Robert", "university": "ESAD", "email": "camille@student.edu", "avatar": "CR", "color": "#E8D4F0", "rating": 4.9, "swaps": 35, "friends": 27, "level": 6, "xp": 960, "xpNext": 1000, "title": "Creative", "online": true, "location": "Atelier Art", "distance": "500m" }
+    ],
+  
+    "skills": [
+      { "id": 1, "userId": 4, "title": "UI Design", "category": "Design", "description": "Design systems, composants réutilisables et bonnes pratiques Figma pour des interfaces modernes.", "image": "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=200&fit=crop", "duration": "1h pour 1h", "rating": 5.0, "swapCount": 12, "tags": ["Design System", "Wireframes", "Handoff Dev"], "learnings": ["Tokens & composants", "Structure avant le visuel", "Specs pour les devs"], "reviews": [{ "author": "Marc, L2 Dev", "rating": 5.0, "comment": "Parfait pour mon projet de fin d'année." }, { "author": "Léa, L3 Info", "rating": 4.5, "comment": "Alex explique super bien !" }] },
+      { "id": 2, "userId": 11, "title": "Master Class Piano Jazz", "category": "Musique", "description": "Apprends les bases de l'improvisation jazz au piano. Technique, gammes et morceaux classiques.", "image": "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=400&h=200&fit=crop", "duration": "1h pour 1h", "rating": 4.9, "swapCount": 28, "tags": ["Jazz", "Improvisation", "Piano"], "learnings": ["Gammes jazz", "Accords enrichis", "Standards jazz"], "reviews": [{ "author": "Sofia, L1 Musique", "rating": 5.0, "comment": "Lucas est un excellent prof !" }] },
+      { "id": 3, "userId": 13, "title": "Fondamentaux React.js", "category": "Développement", "description": "Maîtrise les bases de React : composants, hooks, state management et bonnes pratiques.", "image": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400&h=200&fit=crop", "duration": "Projet pour Projet", "rating": 5.0, "swapCount": 15, "tags": ["React", "Hooks", "State"], "learnings": ["Composants fonctionnels", "useState & useEffect", "Props & Context"], "reviews": [{ "author": "Ryan, L2 Info", "rating": 5.0, "comment": "Très clair et pédagogique." }] },
+      { "id": 4, "userId": 20, "title": "Photographie de Portrait", "category": "Photographie", "description": "Techniques de portrait : lumière naturelle, composition, retouche Lightroom.", "image": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=400&h=200&fit=crop", "duration": "2h pour 2h", "rating": 4.8, "swapCount": 19, "tags": ["Portrait", "Lightroom", "Composition"], "learnings": ["Lumière naturelle", "Mise au point", "Post-traitement"], "reviews": [{ "author": "Tom, L3 Art", "rating": 5.0, "comment": "Superbe session !" }] },
+      { "id": 5, "userId": 1, "title": "Montage Vidéo Premiere Pro", "category": "Développement", "description": "Apprends le montage vidéo avec Premiere Pro et DaVinci Resolve. De la coupe au rendu final.", "image": "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=400&h=200&fit=crop", "duration": "1h pour 1h", "rating": 4.8, "swapCount": 24, "tags": ["Premiere Pro", "DaVinci", "Color Grading"], "learnings": ["Montage basique", "Effets transitions", "Export optimisé"], "reviews": [{ "author": "Hugo, M1", "rating": 4.8, "comment": "Très bonne pédagogie." }] },
+      { "id": 6, "userId": 2, "title": "Photoshop Masterclass", "category": "Design", "description": "Du détourage au compositing, maîtrise Photoshop pour la retouche et la création graphique.", "image": "https://images.unsplash.com/photo-1572044162444-ad60f128bdea?w=400&h=200&fit=crop", "duration": "1h pour 1h", "rating": 5.0, "swapCount": 31, "tags": ["Photoshop", "Retouche", "Compositing"], "learnings": ["Détourage précis", "Calques & masques", "Effets créatifs"], "reviews": [{ "author": "Jade, L2", "rating": 5.0, "comment": "Sarah est incroyable !" }] },
+      { "id": 7, "userId": 3, "title": "Maths Prépa", "category": "Langues", "description": "Soutien en mathématiques niveau prépa : analyse, algèbre, probabilités.", "image": "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=400&h=200&fit=crop", "duration": "1h pour 1h", "rating": 4.6, "swapCount": 18, "tags": ["Analyse", "Algèbre", "Probas"], "learnings": ["Suites & séries", "Espaces vectoriels", "Loi des grands nombres"], "reviews": [{ "author": "Inès, Prépa", "rating": 4.5, "comment": "Marc m'a sauvé pour les partiels." }] },
+      { "id": 8, "userId": 16, "title": "Excel & Finance", "category": "Développement", "description": "Tableaux croisés dynamiques, modèles financiers, VBA basique pour automatiser tes tâches.", "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=200&fit=crop", "duration": "1h pour 1h", "rating": 4.8, "swapCount": 26, "tags": ["Excel", "Finance", "VBA"], "learnings": ["TCD avancés", "Modèles DCF", "Macros VBA"], "reviews": [{ "author": "Noah, M2 Finance", "rating": 4.8, "comment": "Jade est top !" }] },
+      { "id": 9, "userId": 14, "title": "Figma Avancé", "category": "Design", "description": "Variables, auto-layout avancé, composants interactifs et prototypage haute-fidélité.", "image": "https://images.unsplash.com/photo-1559028006-448665bd7c7f?w=400&h=200&fit=crop", "duration": "1h pour 1h", "rating": 5.0, "swapCount": 19, "tags": ["Figma", "Prototypage", "Variables"], "learnings": ["Auto-layout expert", "Composants imbriqués", "Micro-interactions"], "reviews": [{ "author": "Alex, M1 Design", "rating": 5.0, "comment": "Zoe est une designer extraordinaire." }] },
+      { "id": 10, "userId": 18, "title": "Espagnol Conversationnel", "category": "Langues", "description": "Pratique l'espagnol en conversation : vocabulaire quotidien, conjugaison, culture hispanique.", "image": "https://images.unsplash.com/photo-1527866959252-deab85ef7d1b?w=400&h=200&fit=crop", "duration": "1h pour 1h", "rating": 4.7, "swapCount": 20, "tags": ["Espagnol", "Conversation", "Culture"], "learnings": ["Vocabulaire B1/B2", "Temps verbaux", "Expressions idiomatiques"], "reviews": [{ "author": "Camille, L2", "rating": 4.7, "comment": "Super ambiance !" }] },
+      { "id": 11, "userId": 9, "title": "Beatmaking avec Ableton", "category": "Musique", "description": "Crée tes premiers beats : samples, synthèse, arrangement et mixage dans Ableton Live.", "image": "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400&h=200&fit=crop", "duration": "1h pour 1h", "rating": 4.7, "swaps": 48, "tags": ["Ableton", "Beatmaking", "Mixage"], "learnings": ["Sampling", "Synthèse subtractive", "Arrangement"], "reviews": [{ "author": "Lucas, L3", "rating": 4.8, "comment": "Aria est super créative !" }] },
+      { "id": 12, "userId": 7, "title": "Python Scripting", "category": "Développement", "description": "Automatise tes tâches en 5 séances : scripts, API, manipulation de fichiers et web scraping.", "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop", "duration": "1h pour 1h", "rating": 4.9, "swapCount": 67, "tags": ["Python", "Scripting", "Automatisation"], "learnings": ["Scripts basiques", "Requêtes API", "Web scraping"], "reviews": [{ "author": "Ryan, L2 Info", "rating": 5.0, "comment": "Luna explique tout simplement." }] },
+      { "id": 13, "userId": 10, "title": "Marketing Digital", "category": "Développement", "description": "SEO, réseaux sociaux, email marketing et analytics pour booster ta présence en ligne.", "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=200&fit=crop", "duration": "1h pour 1h", "rating": 4.9, "swapCount": 22, "tags": ["SEO", "Social Media", "Analytics"], "learnings": ["Stratégie contenu", "Google Analytics", "Campagnes Meta"], "reviews": [{ "author": "Jade, M1", "rating": 5.0, "comment": "Emma est brillante !" }] },
+      { "id": 14, "userId": 6, "title": "Poterie & Céramique", "category": "Cuisine", "description": "Introduction au tournage et modelage : techniques de base, cuisson et émaillage.", "image": "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=400&h=200&fit=crop", "duration": "2h pour 2h", "rating": 4.5, "swapCount": 9, "tags": ["Tournage", "Modelage", "Émaillage"], "learnings": ["Centrage argile", "Montage mains", "Cuisson four"], "reviews": [{ "author": "Zoe, L3 Art", "rating": 4.5, "comment": "Session très relaxante !" }] },
+      { "id": 15, "userId": 19, "title": "Guitare Acoustique", "category": "Musique", "description": "Apprends les accords de base, les rythmes et joue tes premières chansons.", "image": "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=400&h=200&fit=crop", "duration": "1h pour 1h", "rating": 4.6, "swapCount": 16, "tags": ["Guitare", "Accords", "Rythme"], "learnings": ["Accords ouverts", "Gamme pentatonique", "Fingerpicking"], "reviews": [{ "author": "Tom, L1", "rating": 4.6, "comment": "Hugo est patient et pédagogue." }] }
+    ],
+  
+    "sessions": [
+      { "id": 1, "userId": 4, "skillId": 1, "skill": "UI/UX Design Basics", "status": "confirmed", "date": "Aujourd'hui", "time": "16:00", "location": "Zoom", "locationIcon": "video" },
+      { "id": 2, "userId": 13, "skillId": 3, "skill": "Data Structures", "status": "pending", "date": "Demain", "time": "10:30", "location": "Main Library, Room 402", "locationIcon": "pin" },
+      { "id": 3, "userId": 12, "skillId": 4, "skill": "Public Speaking", "status": "completed", "date": "Hier", "time": "14:00", "location": "Amphi B", "locationIcon": "pin" },
+      { "id": 4, "userId": 2, "skillId": 6, "skill": "Photoshop Masterclass", "status": "confirmed", "date": "Jeudi", "time": "11:00", "location": "Zoom", "locationIcon": "video" },
+      { "id": 5, "userId": 11, "skillId": 2, "skill": "Piano Jazz", "status": "pending", "date": "Vendredi", "time": "15:00", "location": "Salle Musique 3", "locationIcon": "pin" }
+    ],
+  
+    "matches": [
+      { "id": 1, "userId": 4, "hasSkill": "UI Design", "wantsSkill": "Python", "matchPercent": 98, "location": "Campus Library", "distance": "200m" },
+      { "id": 2, "userId": 5, "hasSkill": "Data Science", "wantsSkill": "Mandarin", "matchPercent": 85, "location": "Science Hub", "distance": "500m" },
+      { "id": 3, "userId": 6, "hasSkill": "Pottery", "wantsSkill": "Marketing", "matchPercent": 72, "location": "Art Studio", "distance": "1.2km" },
+      { "id": 4, "userId": 7, "hasSkill": "Python", "wantsSkill": "Piano", "matchPercent": 91, "location": "Main Hall", "distance": "300m" },
+      { "id": 5, "userId": 14, "hasSkill": "Figma", "wantsSkill": "React", "matchPercent": 88, "location": "Studio Design", "distance": "700m" },
+      { "id": 6, "userId": 9, "hasSkill": "Beatmaking", "wantsSkill": "Marketing", "matchPercent": 76, "location": "Media Center", "distance": "1km" },
+      { "id": 7, "userId": 16, "hasSkill": "Excel Finance", "wantsSkill": "UI Design", "matchPercent": 82, "location": "Amphi Finance", "distance": "1.1km" },
+      { "id": 8, "userId": 19, "hasSkill": "Guitare", "wantsSkill": "Python", "matchPercent": 69, "location": "Labo Physique", "distance": "900m" }
+    ],
+  
+    "feed": [
+      { "id": 1, "userId": 4, "action": "learned", "skill": "UI/UX", "partner": "Sarah Miller", "time": "2h ago", "image": "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=200&fit=crop", "category": "Tech Mastery", "validated": true, "likes": 24, "comments": 8, "endorsements": 12 },
+      { "id": 2, "userId": 5, "action": "learned", "skill": "Photography", "partner": "David K.", "time": "5h ago", "image": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=400&h=200&fit=crop", "category": "Creative Arts", "validated": true, "likes": 42, "comments": 15, "endorsements": 8 },
+      { "id": 3, "userId": 12, "action": "learned", "skill": "Public Speaking", "partner": "Professor G.", "time": "8h ago", "image": null, "category": null, "validated": true, "likes": 19, "comments": 4, "endorsements": 5, "quote": "Just finished my first workshop! Feeling so much more confident about my next presentation. Huge thanks to the community for the tips!" },
+      { "id": 4, "userId": 13, "action": "learned", "skill": "React.js", "partner": "Luna Storm", "time": "1j ago", "image": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400&h=200&fit=crop", "category": "Dev", "validated": true, "likes": 33, "comments": 9, "endorsements": 7 },
+      { "id": 5, "userId": 1, "action": "learned", "skill": "Piano Jazz", "partner": "Lucas M.", "time": "1j ago", "image": "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=400&h=200&fit=crop", "category": "Musique", "validated": false, "likes": 15, "comments": 3, "endorsements": 2 },
+      { "id": 6, "userId": 20, "action": "learned", "skill": "Figma Avancé", "partner": "Zoe Dupont", "time": "2j ago", "image": "https://images.unsplash.com/photo-1559028006-448665bd7c7f?w=400&h=200&fit=crop", "category": "Design", "validated": true, "likes": 28, "comments": 6, "endorsements": 10 }
+    ],
+  
+    "badges": [
+      { "id": 1, "name": "First Swap", "icon": "🚀", "color": "#E8194B", "unlocked": true },
+      { "id": 2, "name": "Skill Guru", "icon": "✅", "color": "#4CAF50", "unlocked": true },
+      { "id": 3, "name": "7 Day Hero", "icon": "🏆", "color": "#3D3B8E", "unlocked": true },
+      { "id": 4, "name": "Top Helper", "icon": "⭐", "color": "#FF9800", "unlocked": true },
+      { "id": 5, "name": "20+ Swaps", "icon": "🤝", "color": "#2196F3", "unlocked": true },
+      { "id": 6, "name": "Socialite", "icon": "👥", "color": "#9C27B0", "unlocked": true },
+      { "id": 7, "name": "Speed Learner", "icon": "⚡", "color": "#FF5722", "unlocked": false },
+      { "id": 8, "name": "Night Owl", "icon": "🦉", "color": "#607D8B", "unlocked": false }
+    ],
+  
+    "leaderboard": [
+      { "userId": 7, "rank": 1, "xp": 12890, "trend": "up" },
+      { "userId": 8, "rank": 2, "xp": 11240, "trend": "stable" },
+      { "userId": 9, "rank": 3, "xp": 9800, "trend": "down" },
+      { "userId": 4, "rank": 4, "xp": 8500, "trend": "up" },
+      { "userId": 10, "rank": 5, "xp": 7200, "trend": "up" },
+      { "userId": 2, "rank": 6, "xp": 6800, "trend": "stable" },
+      { "userId": 20, "rank": 7, "xp": 5900, "trend": "up" },
+      { "userId": 14, "rank": 8, "xp": 5100, "trend": "down" },
+      { "userId": 13, "rank": 9, "xp": 4300, "trend": "up" },
+      { "userId": 16, "rank": 10, "xp": 3800, "trend": "stable" },
+      { "userId": 1, "rank": 12, "xp": 2450, "trend": "up" }
+    ],
+  
+    "challenges": [
+      { "id": 1, "title": "Host a 30m Session", "reward": 500, "type": "daily", "active": true },
+      { "id": 2, "title": "Get 3 Endorsements", "reward": 300, "type": "daily", "active": false },
+      { "id": 3, "title": "Swap with a new person", "reward": 400, "type": "weekly", "active": true }
+    ],
+  
+    "currentUser": {
+      "id": 1,
+      "name": "Léo",
+      "surname": "Bernard",
+      "university": "Sorbonne Université",
+      "avatar": "LB",
+      "color": "#E8B4C8",
+      "level": 4,
+      "xp": 450,
+      "xpNext": 500,
+      "title": "Master Swapper",
+      "streak": 12,
+      "totalPoints": 2450,
+      "rank": 12,
+      "rating": 4.8,
+      "swaps": 24,
+      "friends": 15
+    }
+  }
