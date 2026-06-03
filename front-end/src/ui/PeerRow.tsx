@@ -1,8 +1,10 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Modal } from './Modal.tsx'
 import { AvatarImage } from './AvatarImage.tsx'
 
 type PeerRowProps = {
+  id: string
   name: string
   offer: string
   distance: string
@@ -11,13 +13,13 @@ type PeerRowProps = {
   online?: boolean
 }
 
-export function PeerRow({ name, offer, distance, place, rating, online }: PeerRowProps) {
+export function PeerRow({ id, name, offer, distance, place, rating, online }: PeerRowProps) {
   const [messageOpen, setMessageOpen] = useState(false)
   const [message, setMessage] = useState('')
   const [sent, setSent] = useState(false)
 
   const openMessage = () => {
-    setMessage(`Salut ${name.split(' ')[0]} ! Je suis intéressé(e) par ton offre "${offer}". On peut en discuter ?`)
+    setMessage(`Salut ${name.split(' ')[0]} ! Je suis intéressé(e) par ton offre « ${offer} ». On peut en discuter ?`)
     setSent(false)
     setMessageOpen(true)
   }
@@ -33,16 +35,18 @@ export function PeerRow({ name, offer, distance, place, rating, online }: PeerRo
   return (
     <>
       <div className="flex items-center gap-3 px-4 py-3">
-        <div className="relative">
-          <AvatarImage name={name} size={96} rounded="2xl" className="h-12 w-12" />
+        <Link to={`/user/${id}`} className="relative shrink-0" aria-label={`Profil de ${name}`}>
+          <AvatarImage name={name} size={96} rounded="2xl" className="h-12 w-12 transition hover:ring-2 hover:ring-[var(--sw-pink)]/40" />
           {online ? (
             <span className="absolute bottom-1 right-1 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-white" />
           ) : null}
-        </div>
+        </Link>
 
         <div className="min-w-0 flex-1 text-left">
           <div className="flex items-center justify-between gap-3">
-            <div className="truncate text-sm font-semibold text-[var(--sw-text-strong)]">{name}</div>
+            <Link to={`/user/${id}`} className="truncate text-sm font-semibold text-[var(--sw-text-strong)] hover:text-[var(--sw-pink)]">
+              {name}
+            </Link>
             <div className="flex items-center gap-1 text-[var(--sw-text-strong)]">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path
@@ -55,7 +59,7 @@ export function PeerRow({ name, offer, distance, place, rating, online }: PeerRo
           </div>
 
           <div className="mt-0.5 truncate text-xs text-[var(--sw-muted)]">
-            Offre : <span className="font-semibold text-[var(--sw-pink)]">{offer}</span>
+            Propose : <span className="font-semibold text-[var(--sw-pink)]">{offer}</span>
           </div>
           <div className="mt-0.5 truncate text-xs text-[var(--sw-muted)]">
             À {distance} • {place}
@@ -65,7 +69,7 @@ export function PeerRow({ name, offer, distance, place, rating, online }: PeerRo
         <button
           type="button"
           onClick={openMessage}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-[var(--sw-text-strong)] ring-1 ring-black/5 hover:bg-black/5 active:bg-black/10"
+          className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white text-[var(--sw-text-strong)] ring-1 ring-black/5 hover:bg-black/5 active:bg-black/10"
           aria-label={`Contacter ${name}`}
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">

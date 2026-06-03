@@ -56,7 +56,7 @@ export function SkillDetail() {
   const openSwapModal = () => {
     if (!skill) return
     setMessage(
-      `Salut ${author?.name ?? 'there'} ! J'aimerais échanger avec toi pour "${skill.title}". Je propose une session de 1h contre 1h. Dis-moi si ça te convient !`,
+      `Salut ${author?.name ?? ''} ! J'aimerais échanger avec toi pour « ${skill.title} ». Je propose une session de 1h contre 1h. Dis-moi si ça te convient !`,
     )
     setDatetime('')
     setSwapSent(false)
@@ -91,7 +91,7 @@ export function SkillDetail() {
   }
 
   return (
-    <div className="min-h-dvh bg-[var(--sw-bg)] pb-28 text-[var(--sw-text)]">
+    <div className="min-h-dvh bg-[var(--sw-bg)] pb-28 text-[var(--sw-text)] lg:px-[10%]">
       <div className="relative h-56 w-full overflow-hidden md:h-72">
         <CoverImage src={skill.image} className="h-full w-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-black/20" />
@@ -129,7 +129,7 @@ export function SkillDetail() {
         </span>
       </div>
 
-      <main className="mx-auto w-full max-w-6xl px-4 md:px-6">
+      <main className="mx-auto w-full max-w-6xl px-4 md:px-6 lg:max-w-none lg:px-0">
         <div className="-mt-6 relative z-10 rounded-2xl bg-white p-4 shadow-lg ring-1 ring-black/5">
           <div className="flex items-center gap-3">
             <AvatarImage name={authorName} size={96} className="h-12 w-12 shrink-0" />
@@ -190,8 +190,8 @@ export function SkillDetail() {
         </section>
       </main>
 
-      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-black/10 bg-white/95 p-4 backdrop-blur">
-        <div className="mx-auto max-w-6xl">
+      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-black/10 bg-white/95 p-4 backdrop-blur lg:px-[10%]">
+        <div className="mx-auto w-full max-w-6xl lg:max-w-none">
           <button
             type="button"
             onClick={openSwapModal}

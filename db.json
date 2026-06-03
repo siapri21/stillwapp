@@ -69,14 +69,14 @@
     ],
   
     "badges": [
-      { "id": 1, "name": "First Swap", "icon": "🚀", "color": "#E8194B", "unlocked": true },
-      { "id": 2, "name": "Skill Guru", "icon": "✅", "color": "#4CAF50", "unlocked": true },
-      { "id": 3, "name": "7 Day Hero", "icon": "🏆", "color": "#3D3B8E", "unlocked": true },
-      { "id": 4, "name": "Top Helper", "icon": "⭐", "color": "#FF9800", "unlocked": true },
-      { "id": 5, "name": "20+ Swaps", "icon": "🤝", "color": "#2196F3", "unlocked": true },
-      { "id": 6, "name": "Socialite", "icon": "👥", "color": "#9C27B0", "unlocked": true },
-      { "id": 7, "name": "Speed Learner", "icon": "⚡", "color": "#FF5722", "unlocked": false },
-      { "id": 8, "name": "Night Owl", "icon": "🦉", "color": "#607D8B", "unlocked": false }
+      { "id": 1, "name": "First Swap", "icon": "🚀", "color": "#E8194B", "unlocked": true, "description": "Ton premier échange validé sur le campus." },
+      { "id": 2, "name": "Skill Guru", "icon": "✅", "color": "#4CAF50", "unlocked": true, "description": "5 sessions notées 5 étoiles par tes pairs." },
+      { "id": 3, "name": "7 Day Hero", "icon": "🏆", "color": "#3D3B8E", "unlocked": true, "description": "7 jours consécutifs d'activité sur SkillWapp." },
+      { "id": 4, "name": "Top Helper", "icon": "⭐", "color": "#FF9800", "unlocked": true, "description": "Tu figures dans le top 10 des échangeurs." },
+      { "id": 5, "name": "20+ Swaps", "icon": "🤝", "color": "#2196F3", "unlocked": true, "description": "Plus de 20 swaps complétés avec succès." },
+      { "id": 6, "name": "Socialite", "icon": "👥", "color": "#9C27B0", "unlocked": true, "description": "15 amis ou plus sur la plateforme." },
+      { "id": 7, "name": "Speed Learner", "icon": "⚡", "color": "#FF5722", "unlocked": false, "description": "3 compétences apprises en une semaine." },
+      { "id": 8, "name": "Night Owl", "icon": "🦉", "color": "#607D8B", "unlocked": false, "description": "Une session après minuit validée." }
     ],
   
     "leaderboard": [
@@ -99,6 +99,33 @@
       { "id": 3, "title": "Swap with a new person", "reward": 400, "type": "weekly", "active": true }
     ],
   
+    "notifications": [
+      { "id": 1, "title": "Nouveau match", "body": "Alex Rivera veut échanger Python contre ton UI Design.", "time": "Il y a 2h", "icon": "🤝", "read": false, "link": "/matching" },
+      { "id": 2, "title": "Session confirmée", "body": "Ta session UI/UX avec Alex est confirmée pour aujourd'hui 16h.", "time": "Il y a 5h", "icon": "✅", "read": false, "link": "/planning" },
+      { "id": 3, "title": "Badge débloqué", "body": "Tu as débloqué le badge 7 Day Hero !", "time": "Hier", "icon": "🏆", "read": true, "link": "/dashboard" },
+      { "id": 4, "title": "Nouveau message", "body": "Sarah t'a envoyé un message sur la session Photoshop.", "time": "Hier", "icon": "💬", "read": true, "link": "/messages/2" }
+    ],
+
+    "conversations": [
+      { "id": 1, "participantIds": [1, 4], "lastMessage": "Parfait pour demain 16h !", "lastTime": "14:32", "unread": true },
+      { "id": 2, "participantIds": [1, 2], "lastMessage": "J'ai hâte pour la session Photoshop.", "lastTime": "Hier", "unread": false },
+      { "id": 3, "participantIds": [1, 13], "lastMessage": "On peut faire React mercredi ?", "lastTime": "Lun.", "unread": false }
+    ],
+
+    "messages": [
+      { "id": 1, "conversationId": 1, "senderId": 4, "text": "Salut Léo ! Dispo pour le swap UI/Python demain ?", "time": "14:10" },
+      { "id": 2, "conversationId": 1, "senderId": 1, "text": "Oui carrément, 16h ça te va ?", "time": "14:20" },
+      { "id": 3, "conversationId": 1, "senderId": 4, "text": "Parfait pour demain 16h !", "time": "14:32" },
+      { "id": 4, "conversationId": 2, "senderId": 2, "text": "J'ai hâte pour la session Photoshop.", "time": "Hier" },
+      { "id": 5, "conversationId": 3, "senderId": 13, "text": "On peut faire React mercredi ?", "time": "Lun." }
+    ],
+
+    "sessionReviews": [
+      { "id": 1, "sessionId": 3, "authorId": 12, "skill": "Public Speaking", "rating": 5, "comment": "Session très utile, j'ai gagné en confiance pour mes oraux.", "date": "Hier" },
+      { "id": 2, "sessionId": 3, "authorId": 1, "skill": "Public Speaking", "rating": 4.5, "comment": "Mia est super pédagogue, échanges concrets et bienveillants.", "date": "Hier" },
+      { "id": 3, "sessionId": 2, "authorId": 13, "skill": "Data Structures", "rating": 5, "comment": "Explications claires, parfait avant les partiels.", "date": "Il y a 3j" }
+    ],
+
     "currentUser": {
       "id": 1,
       "name": "Léo",

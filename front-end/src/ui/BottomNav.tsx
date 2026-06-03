@@ -1,16 +1,17 @@
 import { NavLink } from 'react-router-dom'
 
 const items = [
-  { to: '/', label: 'Home', icon: HomeIcon, end: true },
-  { to: '/explore', label: 'Explore', icon: CompassIcon, end: false },
-  { to: '/swap', label: 'Swap', icon: SwapIcon, end: false },
-  { to: '/profile', label: 'Profile', icon: UserIcon, end: false },
+  { to: '/', label: 'Accueil', icon: HomeIcon, end: true },
+  { to: '/explore', label: 'Explorer', icon: CompassIcon, end: false },
+  { to: '/messages', label: 'Messages', icon: ChatIcon, end: false },
+  { to: '/planning', label: 'Planning', icon: CalendarIcon, end: false },
+  { to: '/profile', label: 'Profil', icon: UserIcon, end: false },
 ] as const
 
 export function BottomNav() {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-black/10 bg-white/92 backdrop-blur supports-[backdrop-filter]:bg-white/70">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-black/10 bg-white/92 backdrop-blur supports-[backdrop-filter]:bg-white/70 lg:hidden">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-2 py-2 sm:px-4 sm:py-3">
         {items.map((it) => (
           <NavLink
             key={it.to}
@@ -18,7 +19,7 @@ export function BottomNav() {
             end={it.end}
             className={({ isActive }) =>
               [
-                'flex min-w-0 flex-1 flex-col items-center gap-1 text-xs font-semibold',
+                'flex min-w-0 flex-1 flex-col items-center gap-0.5 text-[10px] font-semibold sm:gap-1 sm:text-xs',
                 isActive ? 'text-[var(--sw-pink)]' : 'text-[var(--sw-muted)] hover:text-[var(--sw-text-strong)]',
               ].join(' ')
             }
@@ -59,17 +60,29 @@ function CompassIcon() {
   )
 }
 
-function SwapIcon() {
+function ChatIcon() {
   return (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path
-        d="M7 7h11l-2.5-2.5M17 17H6l2.5 2.5"
+        d="M8 10h8M8 14h5M21 12a8.5 8.5 0 0 1-8.5 8.5H6l-3 1.5 1.2-3A8.5 8.5 0 1 1 21 12Z"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
+function CalendarIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M7 4v2M17 4v2M5 8h14M6 6h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Z"
         stroke="currentColor"
         strokeWidth="1.8"
         strokeLinecap="round"
-        strokeLinejoin="round"
       />
-      <path d="M6 7v6M18 17v-6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
     </svg>
   )
 }

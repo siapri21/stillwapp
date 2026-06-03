@@ -78,6 +78,7 @@ export type ApiBadge = {
   icon: string
   color: string
   unlocked: boolean
+  description?: string
 }
 
 export type ApiLeaderboardEntry = {
@@ -112,6 +113,42 @@ export type ApiCurrentUser = {
   rating: number
   swaps: number
   friends: number
+}
+
+export type ApiNotification = {
+  id: number
+  title: string
+  body: string
+  time: string
+  icon: string
+  read: boolean
+  link?: string
+}
+
+export type ApiConversation = {
+  id: number
+  participantIds: number[]
+  lastMessage: string
+  lastTime: string
+  unread: boolean
+}
+
+export type ApiMessage = {
+  id: number
+  conversationId: number
+  senderId: number
+  text: string
+  time: string
+}
+
+export type ApiSessionReview = {
+  id: number
+  sessionId: number
+  authorId: number
+  skill: string
+  rating: number
+  comment: string
+  date: string
 }
 
 export function userFullName(user: Pick<ApiUser, 'name' | 'surname'>) {

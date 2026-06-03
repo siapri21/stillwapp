@@ -1,4 +1,10 @@
 @import "tailwindcss";
+
+@theme {
+  --font-display: 'Koulen', system-ui, sans-serif;
+  --font-body: 'Kedebideri', system-ui, sans-serif;
+}
+
 :root {
   --sw-pink: #e6007e;
   --sw-orange: #ff7a37;
@@ -10,7 +16,7 @@
   --sw-text: #3a3548;
   --sw-muted: #7a728a;
 
-  font: 16px/145% system-ui, 'Segoe UI', Roboto, sans-serif;
+  font: 16px/145% var(--font-body), system-ui, sans-serif;
   letter-spacing: 0.18px;
   color-scheme: light;
   color: var(--sw-text);
@@ -27,4 +33,17 @@
 
 body {
   margin: 0;
+}
+
+.font-display,
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.font-body {
+  font-family: var(--font-body);
 }

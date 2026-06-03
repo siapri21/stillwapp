@@ -39,7 +39,7 @@ export function OfferCard({ title, author, duration, rating, category, image }: 
       <button
         type="button"
         className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--sw-pink)] text-white shadow-sm hover:brightness-95 active:brightness-90"
-        aria-label="Swap"
+        aria-label="Proposer un swap"
       >
         <SwapGlyph />
       </button>

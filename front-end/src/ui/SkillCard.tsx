@@ -18,8 +18,7 @@ export function SkillCard({ id, tag, title, subtitle, rating, image, className }
   return (
     <article
       className={[
-        'min-w-[260px] flex-1 select-none overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/5',
-        'md:min-w-0',
+        'min-w-[260px] flex-1 select-none overflow-hidden rounded-2xl bg-white shadow-md ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-lg hover:ring-[var(--sw-pink)]/20',
         className ?? '',
       ].join(' ')}
     >
@@ -31,7 +30,7 @@ export function SkillCard({ id, tag, title, subtitle, rating, image, className }
       </div>
 
       <div className="p-4 text-left">
-        <h3 className="text-base font-semibold text-[var(--sw-text-strong)]">{title}</h3>
+        <h3 className="font-display text-base text-[var(--sw-text-strong)]">{title}</h3>
         <p className="mt-1 text-sm text-[var(--sw-muted)]">{subtitle}</p>
 
         <div className="mt-3 flex items-center justify-between gap-3">

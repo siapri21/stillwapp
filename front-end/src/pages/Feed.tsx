@@ -5,6 +5,7 @@ import type { ApiFeedPost, ApiUser } from '../api/types.ts'
 import { userFullName } from '../api/types.ts'
 import { AvatarImage } from '../ui/AvatarImage.tsx'
 import { CoverImage } from '../ui/CoverImage.tsx'
+import { PageMain } from '../ui/PageMain.tsx'
 import { unsplashUrl } from '../utils/images.ts'
 
 type FeedView = {
@@ -56,7 +57,7 @@ export function Feed() {
 
   return (
     <>
-      <header className="sticky top-0 z-30 bg-[var(--sw-bg)]/90 backdrop-blur">
+      <header className="sticky top-0 z-30 bg-[var(--sw-bg)]/90 backdrop-blur lg:hidden">
         <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3 md:px-6">
           <Link to="/" className="inline-flex h-10 w-10 items-center justify-center rounded-full hover:bg-black/5" aria-label="Retour">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -64,14 +65,14 @@ export function Feed() {
             </svg>
           </Link>
           <div className="flex-1 text-center">
-            <div className="text-lg font-bold text-violet-600">Campus Buzz</div>
-            <div className="text-xs text-[var(--sw-muted)]">See what your peers are mastering today.</div>
+            <div className="text-lg font-bold text-violet-600">Fil du campus</div>
+            <div className="text-xs text-[var(--sw-muted)]">Découvre ce que tes pairs apprennent aujourd&apos;hui.</div>
           </div>
           <div className="h-10 w-10" />
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-6xl px-4 pb-28 pt-2 md:px-6">
+      <PageMain className="pt-2">
         {loading ? (
           <p className="text-sm text-[var(--sw-muted)]">Chargement…</p>
         ) : (
@@ -83,16 +84,16 @@ export function Feed() {
                   <div className="min-w-0 flex-1">
                     <div className="flex items-start justify-between gap-2">
                       <p className="text-sm text-[var(--sw-text-strong)]">
-                        <span className="font-semibold">{post.author}</span> learned{' '}
+                        <span className="font-semibold">{post.author}</span> a appris{' '}
                         <span className="font-semibold">{post.skill}</span>
                         <span className="text-[var(--sw-muted)]">
                           {' '}
-                          with {post.with} • {post.time}
+                          avec {post.with} • {post.time}
                         </span>
                       </p>
                       {post.validated ? (
                         <span className="shrink-0 rounded-full bg-emerald-500 px-2 py-0.5 text-[10px] font-bold text-white">
-                          VALIDATED
+                          VALIDÉ
                         </span>
                       ) : null}
                     </div>
@@ -116,7 +117,7 @@ export function Feed() {
                     )}
 
                     <div className="mt-3 flex items-center justify-between">
-                      <span className="text-xs text-[var(--sw-muted)]">+{post.endorsements} Endorsed by peers</span>
+                      <span className="text-xs text-[var(--sw-muted)]">+{post.endorsements} recommandations de pairs</span>
                       <div className="flex gap-3 text-xs text-[var(--sw-muted)]">
                         <span>♥ {post.likes}</span>
                         <span>💬 {post.comments}</span>
@@ -127,7 +128,7 @@ export function Feed() {
                       type="button"
                       className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-[var(--sw-pink)] py-3 text-sm font-semibold text-white"
                     >
-                      👍 Endorse Skill
+                      👍 Recommander
                     </button>
                   </div>
                 </div>
@@ -135,7 +136,7 @@ export function Feed() {
             ))}
           </div>
         )}
-      </main>
+      </PageMain>
     </>
   )
 }

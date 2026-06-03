@@ -5,6 +5,7 @@ import type { ApiBadge, ApiChallenge, ApiCurrentUser, ApiLeaderboardEntry, ApiUs
 import { userFullName } from '../api/types.ts'
 import { AvatarImage } from '../ui/AvatarImage.tsx'
 import { CoverImage } from '../ui/CoverImage.tsx'
+import { PageMain } from '../ui/PageMain.tsx'
 import { imageForBadge, imageForChallenge } from '../utils/images.ts'
 
 type LeaderboardView = {
@@ -43,7 +44,7 @@ export function Dashboard() {
             const isCurrentUser = entry.userId === currentUser.id
             return {
               rank: entry.rank,
-              name: isCurrentUser ? 'You' : entryUser ? userFullName(entryUser) : 'Étudiant',
+              name: isCurrentUser ? 'Toi' : entryUser ? userFullName(entryUser) : 'Étudiant',
               xp: `${entry.xp.toLocaleString('fr-FR')} XP`,
               highlight: isCurrentUser,
               change: entry.trend === 'up' ? '+2' : undefined,
@@ -73,28 +74,28 @@ export function Dashboard() {
               <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </Link>
-          <h1 className="flex-1 text-center text-lg font-semibold text-[var(--sw-text-strong)]">Gamification</h1>
+          <h1 className="flex-1 text-center font-display text-lg text-[var(--sw-text-strong)]">Gamification</h1>
           <div className="h-10 w-10" />
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-6xl px-4 pb-28 pt-2 md:px-6">
+      <PageMain className="pt-2">
         <section className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-black/5">
           <div className="flex items-start justify-between">
             <div>
-              <div className="text-xs font-semibold text-[var(--sw-orange)]">Current Level</div>
-              <div className="text-3xl font-extrabold text-[var(--sw-pink)]">Level {user.level}</div>
+              <div className="text-xs font-semibold text-[var(--sw-orange)]">Niveau actuel</div>
+              <div className="text-3xl font-extrabold text-[var(--sw-pink)]">Niveau {user.level}</div>
             </div>
             <div className="text-right">
-              <div className="text-xs font-semibold text-[var(--sw-orange)]">Total Points</div>
+              <div className="text-xs font-semibold text-[var(--sw-orange)]">Points totaux</div>
               <div className="text-2xl font-extrabold text-[var(--sw-text-strong)]">{user.totalPoints.toLocaleString('fr-FR')} UP</div>
             </div>
           </div>
           <div className="mt-3 inline-flex items-center gap-1 rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
-            🔥 {user.streak} Day Streak
+            🔥 {user.streak} jours de suite
           </div>
           <div className="mt-4 flex items-center justify-between text-xs font-semibold">
-            <span className="text-[var(--sw-muted)]">Next Level: {user.xpNext} XP</span>
+            <span className="text-[var(--sw-muted)]">Prochain niveau : {user.xpNext} XP</span>
             <span className="text-[var(--sw-pink)]">{xpPercent}%</span>
           </div>
           <div className="mt-2 h-3 overflow-hidden rounded-full bg-neutral-100">
@@ -102,42 +103,55 @@ export function Dashboard() {
           </div>
         </section>
 
-        <div className="mt-4 grid grid-cols-2 gap-4">
+        <div className="mt-4 grid grid-cols-2 gap-4 lg:grid-cols-4">
           <div className="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/5">
             <CoverImage src={imageForBadge('teamwork', 200)} className="h-16 w-full object-cover" />
             <div className="p-4 pt-3">
-              <div className="text-sm font-semibold text-[var(--sw-text-strong)]">Swaps</div>
-              <div className="text-xs text-[var(--sw-muted)]">{user.swaps} Total</div>
+              <div className="text-sm font-semibold text-[var(--sw-text-strong)]">Échanges</div>
+              <div className="text-xs text-[var(--sw-muted)]">{user.swaps} au total</div>
             </div>
           </div>
           <div className="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/5">
             <CoverImage src={imageForBadge('success', 200)} className="h-16 w-full object-cover" />
             <div className="p-4 pt-3">
-              <div className="text-sm font-semibold text-[var(--sw-text-strong)]">Rating</div>
-              <div className="text-xs text-[var(--sw-muted)]">{user.rating.toFixed(1)} / 5.0</div>
+              <div className="text-sm font-semibold text-[var(--sw-text-strong)]">Note</div>
+              <div className="text-xs text-[var(--sw-muted)]">{user.rating.toFixed(1)} / 5,0</div>
             </div>
           </div>
         </div>
 
         <section className="mt-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-[var(--sw-text-strong)]">Unlocked Badges</h2>
-            <button type="button" className="text-sm font-semibold text-[var(--sw-pink)]">View All</button>
+            <h2 className="font-display text-lg text-[var(--sw-text-strong)]">Badges débloqués</h2>
+            <button type="button" className="text-sm font-semibold text-[var(--sw-pink)]">Tout voir</button>
           </div>
-          <div className="mt-4 flex gap-4 overflow-x-auto pb-2">
+          <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {badges.map((b) => (
-              <div key={b.id} className="flex shrink-0 flex-col items-center gap-2">
-                <div className="grid h-16 w-16 place-items-center overflow-hidden rounded-full ring-4 ring-[var(--sw-pink)]/20 text-2xl" style={{ backgroundColor: b.color }}>
+              <div
+                key={b.id}
+                className="group relative overflow-hidden rounded-2xl bg-white p-5 shadow-sm ring-1 ring-black/5 transition hover:shadow-lg hover:ring-[var(--sw-pink)]/25"
+              >
+                <div
+                  className="absolute -right-6 -top-6 h-24 w-24 rounded-full opacity-20 blur-xl transition group-hover:opacity-40"
+                  style={{ backgroundColor: b.color }}
+                />
+                <div
+                  className="relative grid h-20 w-20 place-items-center rounded-2xl text-4xl shadow-[0_8px_24px_rgba(230,0,126,0.15)] ring-4 ring-[var(--sw-yellow)]/40 transition group-hover:scale-105"
+                  style={{ backgroundColor: b.color }}
+                >
                   {b.icon}
                 </div>
-                <span className="text-xs font-semibold text-[var(--sw-muted)]">{b.name}</span>
+                <h3 className="relative mt-4 font-display text-base text-[var(--sw-text-strong)]">{b.name}</h3>
+                <p className="relative mt-1 text-sm text-[var(--sw-muted)]">
+                  {b.description ?? 'Badge obtenu grâce à ton activité sur le campus.'}
+                </p>
               </div>
             ))}
           </div>
         </section>
 
         <section className="mt-6">
-          <h2 className="text-lg font-semibold text-[var(--sw-text-strong)]">Top Swappers</h2>
+          <h2 className="text-lg font-semibold text-[var(--sw-text-strong)]">Top échangeurs</h2>
           <div className="mt-3 overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/5">
             {leaderboard.map((entry) => (
               <div
@@ -164,17 +178,17 @@ export function Dashboard() {
             <div className="absolute inset-0 bg-gradient-to-r from-violet-950/90 to-indigo-900/75" />
             <div className="relative flex items-end justify-between gap-4">
               <div>
-                <span className="rounded-full bg-emerald-400 px-2 py-0.5 text-[10px] font-bold text-black">DAILY CHALLENGE</span>
+                <span className="rounded-full bg-emerald-400 px-2 py-0.5 text-[10px] font-bold text-black">DÉFI DU JOUR</span>
                 <h3 className="mt-2 text-xl font-bold">{challenge.title}</h3>
-                <p className="mt-1 text-sm text-white/70">+{challenge.reward} XP Reward</p>
+                <p className="mt-1 text-sm text-white/70">+{challenge.reward} XP de récompense</p>
               </div>
               <button type="button" className="shrink-0 rounded-xl bg-white px-4 py-2 text-sm font-semibold text-violet-700">
-                Accept
+                Accepter
               </button>
             </div>
           </section>
         ) : null}
-      </main>
+      </PageMain>
     </>
   )
 }

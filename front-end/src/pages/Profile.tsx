@@ -6,6 +6,8 @@ import { userFullName } from '../api/types.ts'
 import { useAuth } from '../context/AuthContext.tsx'
 import { AvatarImage } from '../ui/AvatarImage.tsx'
 import { CoverImage } from '../ui/CoverImage.tsx'
+import { NotificationLink } from '../ui/NotificationLink.tsx'
+import { PageMain } from '../ui/PageMain.tsx'
 import { imageForBadge } from '../utils/images.ts'
 
 export function Profile() {
@@ -52,9 +54,7 @@ export function Profile() {
         <div className="mx-auto flex w-full max-w-6xl items-center gap-3 px-4 py-3 md:px-6">
           <AvatarImage name={fullName} size={80} className="h-10 w-10" />
           <div className="ml-auto flex items-center gap-2">
-            <button type="button" className="inline-flex h-10 w-10 items-center justify-center rounded-full text-[var(--sw-text-strong)] hover:bg-black/5 active:bg-black/10" aria-label="Notifications">
-              <BellIcon />
-            </button>
+            <NotificationLink />
             <button type="button" className="inline-flex h-10 w-10 items-center justify-center rounded-full text-[var(--sw-text-strong)] hover:bg-black/5 active:bg-black/10" aria-label="Réglages">
               <GearIcon />
             </button>
@@ -62,7 +62,7 @@ export function Profile() {
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-6xl px-4 pb-28 pt-2 md:px-6">
+      <PageMain className="pt-2">
         <section className="mt-2 rounded-3xl bg-white p-5 shadow-sm ring-1 ring-black/5 md:p-7">
           <div className="flex flex-col items-center">
             <div className="relative">
@@ -76,7 +76,7 @@ export function Profile() {
           </div>
 
           <div className="mt-5 grid grid-cols-2 gap-3">
-            <div className="text-left text-sm font-semibold text-[var(--sw-pink)]">Karma Level {user.level}</div>
+            <div className="text-left text-sm font-semibold text-[var(--sw-pink)]">Niveau Karma {user.level}</div>
             <div className="text-right text-sm font-semibold text-[var(--sw-muted)]">{user.title}</div>
           </div>
 
@@ -90,9 +90,9 @@ export function Profile() {
           </div>
 
           <div className="mt-5 grid grid-cols-3 gap-3">
-            <StatCard value={String(user.swaps)} label="Swaps" />
-            <StatCard value={user.rating.toFixed(1)} label="Rating" icon="star" />
-            <StatCard value={String(user.friends)} label="Friends" />
+            <StatCard value={String(user.swaps)} label="Échanges" />
+            <StatCard value={user.rating.toFixed(1)} label="Note" icon="star" />
+            <StatCard value={String(user.friends)} label="Amis" />
           </div>
         </section>
 
@@ -117,7 +117,7 @@ export function Profile() {
           <div className="flex items-center justify-between gap-4">
             <h2 className="text-lg font-semibold text-[var(--sw-text-strong)] md:text-xl">Badges &amp; Succès</h2>
             <Link to="/dashboard" className="text-sm font-semibold text-[var(--sw-pink)] hover:underline">
-              Dashboard
+              Tableau de bord
             </Link>
           </div>
           <div className="mt-4 grid grid-cols-3 gap-4">
@@ -125,6 +125,24 @@ export function Profile() {
               <BadgeCard key={badge.id} title={badge.name} tint={(['yellow', 'blue', 'purple'] as const)[i % 3]} />
             ))}
           </div>
+        </section>
+
+        <section className="mt-5 rounded-3xl bg-white p-5 shadow-sm ring-1 ring-black/5 lg:p-7">
+          <h2 className="font-display text-lg text-[var(--sw-text-strong)] md:text-xl">Devenir Mentor</h2>
+          <p className="mt-2 text-sm text-[var(--sw-muted)]">
+            Valide ton profil mentor en téléversant tes justificatifs (relevé de notes, diplôme ou certification).
+          </p>
+          <div className="mt-4 flex flex-col gap-3">
+            <MentorUpload label="Relevé de notes" accept=".pdf,.jpg,.png" />
+            <MentorUpload label="Diplôme" accept=".pdf,.jpg,.png" />
+            <MentorUpload label="Certification" accept=".pdf,.jpg,.png" />
+          </div>
+          <button
+            type="button"
+            className="mt-4 w-full rounded-2xl bg-[var(--sw-yellow)] py-3.5 text-sm font-semibold text-black shadow-sm hover:brightness-95"
+          >
+            Soumettre ma candidature mentor
+          </button>
         </section>
 
         <section className="mt-6">
@@ -136,7 +154,7 @@ export function Profile() {
             Se déconnecter
           </button>
         </section>
-      </main>
+      </PageMain>
     </>
   )
 }
@@ -200,16 +218,22 @@ function BadgeCard({ title, tint }: { title: string; tint: 'yellow' | 'blue' | '
   )
 }
 
-function BellIcon() {
+function MentorUpload({ label, accept }: { label: string; accept: string }) {
+  const [fileName, setFileName] = useState<string | null>(null)
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path
-        d="M12 22a2.2 2.2 0 0 0 2.2-2.2H9.8A2.2 2.2 0 0 0 12 22Zm7-6.3V11a7 7 0 0 0-5.2-6.8V3a1.8 1.8 0 0 0-3.6 0v1.2A7 7 0 0 0 5 11v4.7l-1.6 1.6V19h19.2v-1.7L19 15.7Z"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinejoin="round"
+    <label className="flex cursor-pointer items-center gap-3 rounded-2xl border border-dashed border-[var(--sw-pink)]/30 bg-[var(--sw-bg)] px-4 py-3 transition hover:border-[var(--sw-pink)]">
+      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[var(--sw-pink)]/10 text-lg">📄</span>
+      <div className="min-w-0 flex-1">
+        <div className="text-sm font-semibold text-[var(--sw-text-strong)]">{label}</div>
+        <div className="truncate text-xs text-[var(--sw-muted)]">{fileName ?? 'PDF, JPG ou PNG'}</div>
+      </div>
+      <input
+        type="file"
+        accept={accept}
+        className="sr-only"
+        onChange={(e) => setFileName(e.target.files?.[0]?.name ?? null)}
       />
-    </svg>
+    </label>
   )
 }
 
