@@ -151,6 +151,26 @@ export type ApiSessionReview = {
   date: string
 }
 
+export type ApiUserWish = {
+  userId: number
+  skills: string[]
+}
+
+export type ApiMySwap = {
+  id: number
+  sessionId: number
+  skill: string
+  date: string
+  partnerId: number
+  partnerName: string
+  status: 'completed' | 'pending' | 'confirmed'
+  ratingReceived?: number
+  reviewReceived?: string
+  myReviewLeft: boolean
+  myRating?: number
+  myComment?: string
+}
+
 export function userFullName(user: Pick<ApiUser, 'name' | 'surname'>) {
   return `${user.name} ${user.surname}`
 }

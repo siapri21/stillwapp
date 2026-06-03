@@ -1,10 +1,17 @@
 import { Link } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext.tsx'
 
 type NotificationLinkProps = {
   className?: string
 }
 
 export function NotificationLink({ className }: NotificationLinkProps) {
+  const { isAuthenticated } = useAuth()
+
+  if (!isAuthenticated) {
+    return null
+  }
+
   return (
     <Link
       to="/notifications"

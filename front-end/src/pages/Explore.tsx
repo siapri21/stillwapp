@@ -5,7 +5,6 @@ import type { ApiSkill, ApiUser } from '../api/types.ts'
 import { userFullName } from '../api/types.ts'
 import { exploreCategories, type ExploreCategory } from '../data/categories.ts'
 import { CategoryCard } from '../ui/CategoryCard.tsx'
-import { NotificationLink } from '../ui/NotificationLink.tsx'
 import { OfferCard } from '../ui/OfferCard.tsx'
 import { PageMain } from '../ui/PageMain.tsx'
 import { SearchBar } from '../ui/SearchBar.tsx'
@@ -39,28 +38,6 @@ export function Explore() {
 
   return (
     <>
-      <header className="sticky top-0 z-30 bg-[var(--sw-bg)]/90 backdrop-blur supports-[backdrop-filter]:bg-[var(--sw-bg)]/70 lg:hidden">
-        <div className="mx-auto flex w-full max-w-6xl items-center gap-3 px-4 py-3 md:px-6">
-          <div className="relative">
-            <img src="/logoskillwapp.png" alt="SkillWapp" className="h-10 w-10 rounded-full object-cover shadow-sm" />
-            <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-[var(--sw-bg)]" />
-          </div>
-          <div className="ml-auto flex items-center gap-2">
-            <NotificationLink />
-            <Link
-              to="/search"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full text-[var(--sw-text-strong)] hover:bg-black/5"
-              aria-label="Recherche"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" strokeWidth="2" />
-                <path d="M21 21l-4.2-4.2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-              </svg>
-            </Link>
-          </div>
-        </div>
-      </header>
-
       <PageMain className="pt-2 md:pt-4">
         <section className="mt-3 lg:grid lg:grid-cols-2 lg:gap-8">
           <div>

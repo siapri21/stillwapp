@@ -1,31 +1,111 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { BASE_URL } from '../api/config.js'
-import type { ApiSkill, ApiUser } from '../api/types.ts'
+import type { ApiSkill, ApiUser, ApiUserWish } from '../api/types.ts'
 import { userFullName } from '../api/types.ts'
 import { AvatarImage } from '../ui/AvatarImage.tsx'
 import { CoverImage } from '../ui/CoverImage.tsx'
 import { PageMain } from '../ui/PageMain.tsx'
+import { allLevelBadges } from '../utils/levelBadge.ts'
 
 export function UserProfile() {
   const { userId } = useParams()
   const id = Number(userId)
   const [user, setUser] = useState<ApiUser | null>(null)
   const [skills, setSkills] = useState<ApiSkill[]>([])
+  const [wishes, setWishes] = useState<string[]>([])
+  const [conversationId, setConversationId] = useState<number | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (!id) return
-    Promise.all([
-      fetch(`${BASE_URL}/users`).then((res) => res.json() as Promise<ApiUser[]>),
-      fetch(`${BASE_URL}/skills`).then((res) => res.json() as Promise<ApiSkill[]>),
-    ])
-      .then(([usersData, skillsData]) => {
-        setUser(usersData.find((u) => u.id === id) ?? null)
-        setSkills(skillsData.filter((s) => s.userId === id))
-      })
-      .finally(() => setLoading(false))
+    if (!id || Number.isNaN(id)) return
+
+    let cancelled = false
+    setLoading(true)
+    setUser(null)
+
+    const load = async () => {
+      try {
+        let userData: ApiUser | null = null
+        const userRes = await fetch(`${BASE_URL}/users/${id}`)
+        if (userRes.ok) {
+          userData = (await userRes.json()) as ApiUser
+        } else {
+          const listRes = await fetch(`${BASE_URL}/users`)
+          if (listRes.ok) {
+            const list = (await listRes.json()) as ApiUser[]
+            userData = (Array.isArray(list) ? list : []).find((u) => Number(u.id) === id) ?? null
+          }
+        }
+        if (cancelled) return
+        if (!userData) {
+          setUser(null)
+          return
+        }
+        setUser(userData)
+
+        const [skillsRes, wishesRes, convRes] = await Promise.all([
+          fetch(`${BASE_URL}/skills`),
+          fetch(`${BASE_URL}/userWishes`),
+          fetch(`${BASE_URL}/conversations`),
+        ])
+
+        if (cancelled) return
+
+        if (skillsRes.ok) {
+          const skillsData = (await skillsRes.json()) as ApiSkill[]
+          setSkills(
+            (Array.isArray(skillsData) ? skillsData : []).filter(
+              (s) => Number(s.userId) === id,
+            ),
+          )
+        } else {
+          setSkills([])
+        }
+
+        if (wishesRes.ok) {
+          const wishesData = (await wishesRes.json()) as ApiUserWish[]
+          const wishEntry = (Array.isArray(wishesData) ? wishesData : []).find(
+            (w) => Number(w.userId) === id,
+          )
+          setWishes(wishEntry?.skills ?? [])
+        } else {
+          setWishes([])
+        }
+
+        if (convRes.ok) {
+          const convData = (await convRes.json()) as { id: number; participantIds: number[] }[]
+          const conv = (Array.isArray(convData) ? convData : []).find(
+            (c) => c.participantIds.map(Number).includes(id) && c.participantIds.map(Number).includes(1),
+          )
+          setConversationId(conv?.id ?? null)
+        } else {
+          setConversationId(null)
+        }
+      } catch {
+        if (!cancelled) setUser(null)
+      } finally {
+        if (!cancelled) setLoading(false)
+      }
+    }
+
+    load()
+
+    return () => {
+      cancelled = true
+    }
   }, [id])
+
+  const reviews = useMemo(() => {
+    return skills.flatMap((skill) =>
+      (skill.reviews ?? []).map((r) => ({
+        skill: skill.title,
+        author: r.author,
+        rating: r.rating,
+        comment: r.comment,
+      })),
+    )
+  }, [skills])
 
   if (loading) {
     return (
@@ -47,12 +127,14 @@ export function UserProfile() {
   }
 
   const fullName = userFullName(user)
+  const levelBadges = allLevelBadges(user.swaps, user.rating)
+  const messageTo = conversationId ? `/messages/${conversationId}` : '/messages'
 
   return (
     <>
       <header className="sticky top-0 z-30 bg-[var(--sw-bg)]/90 backdrop-blur lg:hidden">
         <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
-          <Link to="/" className="inline-flex h-10 w-10 items-center justify-center rounded-full hover:bg-black/5" aria-label="Retour">
+          <Link to="/matching" className="inline-flex h-10 w-10 items-center justify-center rounded-full hover:bg-black/5" aria-label="Retour">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
@@ -71,19 +153,19 @@ export function UserProfile() {
                 <span className="absolute bottom-2 right-2 h-4 w-4 rounded-full bg-emerald-500 ring-4 ring-white" />
               ) : null}
             </div>
-            <div className="mt-4 text-center lg:mt-0 lg:text-left">
+            <div className="mt-4 w-full text-center lg:mt-0 lg:text-left">
               <h1 className="font-display text-2xl text-[var(--sw-text-strong)] lg:text-4xl">{fullName}</h1>
-              <p className="mt-1 font-body text-sm text-[var(--sw-muted)]">{user.university}</p>
-              <p className="mt-2 font-body text-sm text-[var(--sw-muted)]">
+              <p className="mt-1 text-sm text-[var(--sw-muted)]">{user.university}</p>
+              <p className="mt-2 text-sm text-[var(--sw-muted)]">
                 {user.location} · {user.distance}
               </p>
               <div className="mt-4 flex flex-wrap justify-center gap-4 lg:justify-start">
                 <Stat label="Note" value={`${user.rating.toFixed(1)} ★`} />
-                <Stat label="Swaps" value={String(user.swaps)} />
-                <Stat label="Niveau" value={String(user.level)} />
+                <Stat label="Échanges" value={String(user.swaps)} />
+                <Stat label="Amis" value={String(user.friends)} />
               </div>
               <Link
-                to={`/messages/1`}
+                to={messageTo}
                 className="mt-5 inline-flex rounded-2xl bg-[var(--sw-pink)] px-6 py-3 text-sm font-semibold text-white shadow-sm hover:brightness-95"
               >
                 Envoyer un message
@@ -93,30 +175,87 @@ export function UserProfile() {
         </section>
 
         <section className="mt-6">
-          <h2 className="font-display text-lg text-[var(--sw-text-strong)] lg:text-xl">Compétences proposées</h2>
-          <div className="mt-4 flex flex-col gap-4 lg:grid lg:grid-cols-2">
-            {skills.length === 0 ? (
-              <p className="text-sm text-[var(--sw-muted)]">Aucune compétence publiée.</p>
-            ) : (
-              skills.map((skill) => (
-                <Link
-                  key={skill.id}
-                  to={`/explore/${skill.id}`}
-                  className="flex gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-black/5"
-                >
-                  <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl">
-                    <CoverImage src={skill.image} className="h-full w-full object-cover" />
-                  </div>
-                  <div className="min-w-0">
-                    <div className="font-body text-sm font-semibold text-[var(--sw-text-strong)]">{skill.title}</div>
-                    <div className="mt-0.5 text-xs text-[var(--sw-pink)]">{skill.category}</div>
-                    <div className="mt-1 text-xs text-[var(--sw-muted)]">{skill.duration}</div>
-                  </div>
-                </Link>
-              ))
-            )}
+          <h2 className="font-display text-lg text-[var(--sw-text-strong)]">Badges de niveau</h2>
+          <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-3">
+            {levelBadges.map((b) => (
+              <div
+                key={b.tier}
+                className={[
+                  'rounded-2xl p-4 ring-1 transition',
+                  b.active ? 'bg-white shadow-md ring-[var(--sw-pink)]/30' : 'bg-white/60 opacity-70 ring-black/5',
+                ].join(' ')}
+              >
+                <div className="text-2xl">{b.emoji}</div>
+                <div className="mt-2 font-display text-sm text-[var(--sw-text-strong)]">{b.label}</div>
+                <p className="mt-1 text-xs text-[var(--sw-muted)]">{b.description}</p>
+              </div>
+            ))}
           </div>
         </section>
+
+        <div className="mt-6 lg:grid lg:grid-cols-2 lg:gap-8">
+          <section>
+            <h2 className="font-display text-lg text-[var(--sw-text-strong)]">Talents proposés</h2>
+            <div className="mt-4 flex flex-col gap-4">
+              {skills.length === 0 ? (
+                <p className="text-sm text-[var(--sw-muted)]">Aucun talent publié.</p>
+              ) : (
+                skills.map((skill) => (
+                  <Link
+                    key={skill.id}
+                    to={`/explore/${skill.id}`}
+                    className="flex gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-black/5"
+                  >
+                    <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl">
+                      <CoverImage src={skill.image} className="h-full w-full object-cover" />
+                    </div>
+                    <div className="min-w-0">
+                      <div className="text-sm font-semibold text-[var(--sw-text-strong)]">{skill.title}</div>
+                      <div className="mt-0.5 text-xs text-[var(--sw-pink)]">{skill.category}</div>
+                      <div className="mt-1 text-xs text-[var(--sw-muted)]">{skill.duration}</div>
+                    </div>
+                  </Link>
+                ))
+              )}
+            </div>
+          </section>
+
+          <section>
+            <h2 className="font-display text-lg text-[var(--sw-text-strong)]">Souhaits</h2>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {wishes.length === 0 ? (
+                <p className="text-sm text-[var(--sw-muted)]">Aucun souhait renseigné.</p>
+              ) : (
+                wishes.map((w) => (
+                  <span
+                    key={w}
+                    className="rounded-full bg-[var(--sw-orange)]/15 px-4 py-2 text-sm font-semibold text-[var(--sw-orange)]"
+                  >
+                    {w}
+                  </span>
+                ))
+              )}
+            </div>
+
+            <h2 className="mt-8 font-display text-lg text-[var(--sw-text-strong)]">Avis reçus</h2>
+            <div className="mt-4 flex flex-col gap-3">
+              {reviews.length === 0 ? (
+                <p className="text-sm text-[var(--sw-muted)]">Pas encore d&apos;avis.</p>
+              ) : (
+                reviews.map((r, i) => (
+                  <article key={`${r.author}-${i}`} className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-black/5">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-sm font-semibold text-[var(--sw-text-strong)]">{r.author}</span>
+                      <span className="text-sm text-[var(--sw-orange)]">{'★'.repeat(Math.round(r.rating))}</span>
+                    </div>
+                    <p className="mt-0.5 text-xs text-[var(--sw-pink)]">{r.skill}</p>
+                    <p className="mt-2 text-sm text-[var(--sw-muted)]">{r.comment}</p>
+                  </article>
+                ))
+              )}
+            </div>
+          </section>
+        </div>
       </PageMain>
     </>
   )
@@ -125,7 +264,7 @@ export function UserProfile() {
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div className="text-center">
-      <div className="font-body text-lg font-bold text-[var(--sw-text-strong)]">{value}</div>
+      <div className="text-lg font-bold text-[var(--sw-text-strong)]">{value}</div>
       <div className="text-xs text-[var(--sw-muted)]">{label}</div>
     </div>
   )

@@ -16,6 +16,22 @@
   --sw-text: #3a3548;
   --sw-muted: #7a728a;
 
+  --background: 247 247 251;
+  --foreground: 25 22 36;
+  --card: 255 255 255;
+  --card-foreground: 25 22 36;
+  --primary: 230 0 126;
+  --primary-foreground: 255 255 255;
+  --secondary: 255 122 55;
+  --secondary-foreground: 255 255 255;
+  --muted: 122 114 138;
+  --muted-foreground: 122 114 138;
+  --accent: 255 237 0;
+  --accent-foreground: 25 22 36;
+  --border: 0 0 0 / 0.08;
+  --ring: 230 0 126;
+  --radius: 0.75rem;
+
   font: 16px/145% var(--font-body), system-ui, sans-serif;
   letter-spacing: 0.18px;
   color-scheme: light;

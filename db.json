@@ -126,6 +126,32 @@
       { "id": 3, "sessionId": 2, "authorId": 13, "skill": "Data Structures", "rating": 5, "comment": "Explications claires, parfait avant les partiels.", "date": "Il y a 3j" }
     ],
 
+    "userWishes": [
+      { "userId": 4, "skills": ["Python", "Marketing Digital"] },
+      { "userId": 5, "skills": ["Mandarin", "UI Design"] },
+      { "userId": 6, "skills": ["Marketing", "Excel"] },
+      { "userId": 7, "skills": ["Piano", "UI Design"] },
+      { "userId": 14, "skills": ["React", "Python"] },
+      { "userId": 9, "skills": ["Marketing", "Vidéo"] },
+      { "userId": 16, "skills": ["UI Design", "Figma"] },
+      { "userId": 19, "skills": ["Python", "Beatmaking"] },
+      { "userId": 1, "skills": ["Python", "UI Design"] }
+    ],
+
+    "mySwaps": [
+      { "id": 1, "sessionId": 3, "skill": "Prise de parole", "date": "Hier", "partnerId": 12, "partnerName": "Mia Thompson", "status": "completed", "ratingReceived": 4.5, "reviewReceived": "Léo a été très à l'écoute, échange motivant et structuré.", "myReviewLeft": true, "myRating": 5, "myComment": "Excellente session, je recommande !" },
+      { "id": 2, "sessionId": 10, "skill": "Montage Vidéo Premiere Pro", "date": "Il y a 5j", "partnerId": 2, "partnerName": "Sarah Klift", "status": "completed", "ratingReceived": 5, "reviewReceived": "Très pro, j'ai appris des raccourcis indispensables.", "myReviewLeft": true, "myRating": 5, "myComment": "Sarah maîtrise parfaitement son sujet." },
+      { "id": 3, "sessionId": 11, "skill": "Piano Jazz", "date": "Il y a 8j", "partnerId": 11, "partnerName": "Lucas Martin", "status": "completed", "ratingReceived": 4.8, "reviewReceived": "Super ambiance, progressions rapides.", "myReviewLeft": false },
+      { "id": 4, "sessionId": 12, "skill": "Fondamentaux React.js", "date": "Il y a 12j", "partnerId": 13, "partnerName": "Noah Petit", "status": "completed", "ratingReceived": 5, "reviewReceived": "Noah explique clairement, parfait pour débuter.", "myReviewLeft": true, "myRating": 4, "myComment": "Bon premier swap technique." },
+      { "id": 5, "sessionId": 13, "skill": "UI Design", "date": "Il y a 15j", "partnerId": 4, "partnerName": "Alex Rivera", "status": "completed", "ratingReceived": 5, "reviewReceived": "Alex est un mentor UI au top.", "myReviewLeft": false }
+    ],
+
+    "communityStats": {
+      "students": 247,
+      "skills": 38,
+      "radiusKm": 2
+    },
+
     "currentUser": {
       "id": 1,
       "name": "Léo",

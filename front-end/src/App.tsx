@@ -26,10 +26,10 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/explore" element={<Explore />} />
             <Route path="/search" element={<Search />} />
-            <Route path="/notifications" element={<Notifications />} />
             <Route path="/user/:userId" element={<UserProfile />} />
 
             <Route element={<ProtectedRoute />}>
+              <Route path="/notifications" element={<Notifications />} />
               <Route path="/matching" element={<Matching />} />
               <Route path="/planning" element={<Swap />} />
               <Route path="/swap" element={<Navigate to="/planning" replace />} />

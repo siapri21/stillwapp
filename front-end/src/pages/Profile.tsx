@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { BASE_URL } from '../api/config.js'
-import type { ApiBadge, ApiCurrentUser, ApiSkill } from '../api/types.ts'
+import type { ApiCurrentUser, ApiMySwap, ApiSkill } from '../api/types.ts'
 import { userFullName } from '../api/types.ts'
 import { useAuth } from '../context/AuthContext.tsx'
 import { AvatarImage } from '../ui/AvatarImage.tsx'
 import { CoverImage } from '../ui/CoverImage.tsx'
-import { NotificationLink } from '../ui/NotificationLink.tsx'
+import { Modal } from '../ui/Modal.tsx'
 import { PageMain } from '../ui/PageMain.tsx'
+import { allLevelBadges } from '../utils/levelBadge.ts'
 
 type ProfileTab = 'talents' | 'wishes'
 
@@ -16,21 +17,18 @@ export function Profile() {
   const { logout } = useAuth()
   const [user, setUser] = useState<ApiCurrentUser | null>(null)
   const [talents, setTalents] = useState<ApiSkill[]>([])
-  const [badges, setBadges] = useState<ApiBadge[]>([])
   const [loading, setLoading] = useState(true)
   const [tab, setTab] = useState<ProfileTab>('talents')
-  const [mentorSubmitted, setMentorSubmitted] = useState(false)
+  const [swapsOpen, setSwapsOpen] = useState(false)
 
   useEffect(() => {
     Promise.all([
       fetch(`${BASE_URL}/currentUser`).then((res) => res.json() as Promise<ApiCurrentUser>),
       fetch(`${BASE_URL}/skills`).then((res) => res.json() as Promise<ApiSkill[]>),
-      fetch(`${BASE_URL}/badges`).then((res) => res.json() as Promise<ApiBadge[]>),
     ])
-      .then(([currentUser, skillsData, badgesData]) => {
+      .then(([currentUser, skillsData]) => {
         setUser(currentUser)
         setTalents(skillsData.filter((s) => s.userId === currentUser.id))
-        setBadges(badgesData.filter((b) => b.unlocked))
       })
       .finally(() => setLoading(false))
   }, [])
@@ -45,6 +43,7 @@ export function Profile() {
 
   const fullName = userFullName(user)
   const xpPercent = Math.round((user.xp / user.xpNext) * 100)
+  const levelBadges = allLevelBadges(user.swaps, user.rating)
 
   const handleLogout = () => {
     logout()
@@ -53,29 +52,17 @@ export function Profile() {
 
   return (
     <>
-      <header className="sticky top-0 z-30 bg-[var(--sw-bg)]/90 backdrop-blur supports-[backdrop-filter]:bg-[var(--sw-bg)]/70 lg:hidden">
-        <div className="mx-auto flex w-full max-w-6xl items-center gap-3 px-4 py-3 md:px-6">
-          <AvatarImage name={fullName} size={80} className="h-10 w-10" />
-          <div className="ml-auto flex items-center gap-2">
-            <NotificationLink />
-            <Link
-              to="/search"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full text-[var(--sw-text-strong)] hover:bg-black/5 active:bg-black/10"
-              aria-label="Recherche"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" strokeWidth="2" />
-                <path d="M21 21l-4.2-4.2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-              </svg>
-            </Link>
-            <button
-              type="button"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full text-[var(--sw-text-strong)] hover:bg-black/5 active:bg-black/10"
-              aria-label="Réglages"
-            >
-              <GearIcon />
-            </button>
-          </div>
+      <header className="sticky top-0 z-30 bg-[var(--sw-bg)]/90 backdrop-blur lg:hidden">
+        <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-2 md:px-6">
+          <AvatarImage name={fullName} size={80} className="h-9 w-9" />
+          <span className="truncate text-sm font-semibold text-[var(--sw-text-strong)]">{fullName}</span>
+          <button
+            type="button"
+            className="ml-auto inline-flex h-10 w-10 items-center justify-center rounded-full text-[var(--sw-text-strong)] hover:bg-black/5"
+            aria-label="Réglages"
+          >
+            <GearIcon />
+          </button>
         </div>
       </header>
 
@@ -117,7 +104,12 @@ export function Profile() {
                   </div>
 
                   <div className="mt-5 grid grid-cols-3 gap-3">
-                    <StatCard value={String(user.swaps)} label="Échanges" />
+                    <StatCard
+                      value={String(user.swaps)}
+                      label="Échanges"
+                      onClick={() => setSwapsOpen(true)}
+                      clickable
+                    />
                     <StatCard value={user.rating.toFixed(1)} label="Note" icon="star" />
                     <StatCard value={String(user.friends)} label="Amis" />
                   </div>
@@ -129,6 +121,25 @@ export function Profile() {
                     Voir le tableau de bord
                   </Link>
                 </div>
+              </div>
+            </section>
+
+            <section>
+              <h2 className="font-display text-lg text-[var(--sw-text-strong)]">Badges de niveau</h2>
+              <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-3">
+                {levelBadges.map((b) => (
+                  <div
+                    key={b.tier}
+                    className={[
+                      'rounded-2xl p-4 ring-1',
+                      b.active ? 'bg-white shadow-md ring-[var(--sw-pink)]/30' : 'bg-white/70 opacity-80 ring-black/5',
+                    ].join(' ')}
+                  >
+                    <div className="text-2xl">{b.emoji}</div>
+                    <div className="mt-2 font-display text-sm text-[var(--sw-text-strong)]">{b.label}</div>
+                    <p className="mt-1 text-xs text-[var(--sw-muted)]">{b.description}</p>
+                  </div>
+                ))}
               </div>
             </section>
 
@@ -167,66 +178,15 @@ export function Profile() {
                   )
                 ) : (
                   <p className="rounded-2xl bg-white p-6 text-center text-sm text-[var(--sw-muted)] shadow-sm ring-1 ring-black/5 lg:col-span-2">
-                    Ajoute les compétences que tu souhaites apprendre (bientôt disponible).
+                    Python, UI Design — configure tes souhaits depuis les paramètres (bientôt).
                   </p>
                 )}
-              </div>
-            </section>
-
-            <section className="lg:hidden">
-              <div className="flex items-center justify-between gap-4">
-                <h2 className="font-display text-lg text-[var(--sw-text-strong)]">Badges &amp; Succès</h2>
-                <Link to="/dashboard" className="text-sm font-semibold text-[var(--sw-pink)] hover:underline">
-                  Tableau de bord
-                </Link>
-              </div>
-              <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {badges.slice(0, 3).map((badge) => (
-                  <BadgeCard key={badge.id} badge={badge} />
-                ))}
               </div>
             </section>
           </div>
 
           <aside className="flex flex-col gap-5 lg:sticky lg:top-20">
-            <section className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-black/5 lg:p-6">
-              <h2 className="font-display text-lg text-[var(--sw-text-strong)]">Devenir Mentor</h2>
-              <p className="mt-2 text-sm text-[var(--sw-muted)]">
-                Téléverse ton relevé de notes, ton diplôme ou une certification pour valider ton profil mentor.
-              </p>
-              <div className="mt-4 flex flex-col gap-3">
-                <MentorUpload label="Relevé de notes" accept=".pdf,.jpg,.jpeg,.png" />
-                <MentorUpload label="Diplôme" accept=".pdf,.jpg,.jpeg,.png" />
-                <MentorUpload label="Certification" accept=".pdf,.jpg,.jpeg,.png" />
-              </div>
-              {mentorSubmitted ? (
-                <p className="mt-4 rounded-2xl bg-emerald-50 px-4 py-3 text-center text-sm font-semibold text-emerald-700">
-                  Candidature envoyée — nous te recontactons sous 48h.
-                </p>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => setMentorSubmitted(true)}
-                  className="mt-4 w-full rounded-2xl bg-[var(--sw-yellow)] py-3.5 text-sm font-semibold text-black shadow-sm hover:brightness-95"
-                >
-                  Soumettre ma candidature mentor
-                </button>
-              )}
-            </section>
-
-            <section className="hidden lg:block">
-              <div className="flex items-center justify-between gap-4">
-                <h2 className="font-display text-lg text-[var(--sw-text-strong)]">Badges débloqués</h2>
-                <Link to="/dashboard" className="text-sm font-semibold text-[var(--sw-pink)] hover:underline">
-                  Tout voir
-                </Link>
-              </div>
-              <div className="mt-4 flex flex-col gap-3">
-                {badges.slice(0, 4).map((badge) => (
-                  <BadgeCard key={badge.id} badge={badge} compact />
-                ))}
-              </div>
-            </section>
+            <MentorSection />
 
             <button
               type="button"
@@ -238,13 +198,44 @@ export function Profile() {
           </aside>
         </div>
       </PageMain>
+
+      <SwapsHistoryModal open={swapsOpen} onClose={() => setSwapsOpen(false)} />
     </>
   )
 }
 
-function StatCard({ value, label, icon }: { value: string; label: string; icon?: 'star' }) {
+function StatCard({
+  value,
+  label,
+  icon,
+  onClick,
+  clickable,
+}: {
+  value: string
+  label: string
+  icon?: 'star'
+  onClick?: () => void
+  clickable?: boolean
+}) {
+  const className = [
+    'rounded-2xl bg-[var(--sw-bg)] p-3 text-center ring-1 ring-black/5 lg:bg-white lg:p-4',
+    clickable ? 'cursor-pointer transition hover:ring-[var(--sw-pink)]/40 hover:shadow-sm' : '',
+  ].join(' ')
+
+  if (clickable && onClick) {
+    return (
+      <button type="button" onClick={onClick} className={className}>
+        <div className="flex items-center justify-center gap-1 text-lg font-extrabold text-[var(--sw-text-strong)]">
+          <span>{value}</span>
+          {icon === 'star' ? <span className="text-[var(--sw-orange)]">★</span> : null}
+        </div>
+        <div className="mt-1 text-xs font-semibold text-[var(--sw-pink)]">{label}</div>
+      </button>
+    )
+  }
+
   return (
-    <div className="rounded-2xl bg-[var(--sw-bg)] p-3 text-center ring-1 ring-black/5 lg:bg-white lg:p-4">
+    <div className={className}>
       <div className="flex items-center justify-center gap-1 text-lg font-extrabold text-[var(--sw-text-strong)]">
         <span>{value}</span>
         {icon === 'star' ? <span className="text-[var(--sw-orange)]">★</span> : null}
@@ -283,48 +274,108 @@ function TalentCard({ skill }: { skill: ApiSkill }) {
   )
 }
 
-function BadgeCard({ badge, compact }: { badge: ApiBadge; compact?: boolean }) {
-  if (compact) {
-    return (
-      <div className="flex items-center gap-3 rounded-2xl bg-white p-3 shadow-sm ring-1 ring-black/5">
-        <div
-          className="grid h-12 w-12 shrink-0 place-items-center rounded-xl text-xl ring-2 ring-[var(--sw-yellow)]/40"
-          style={{ backgroundColor: badge.color }}
-        >
-          {badge.icon}
-        </div>
-        <div className="min-w-0">
-          <div className="truncate text-sm font-semibold text-[var(--sw-text-strong)]">{badge.name}</div>
-          <p className="line-clamp-2 text-xs text-[var(--sw-muted)]">
-            {badge.description ?? 'Badge débloqué'}
-          </p>
-        </div>
-      </div>
-    )
+const MENTOR_FILIERES = [
+  'Informatique & Data',
+  'Design & Création',
+  'Commerce & Marketing',
+  'Droit & Sciences Po',
+  'Ingénierie',
+  'Santé & Pharma',
+  'Langues & Lettres',
+  'Musique & Arts',
+  'Autre filière',
+] as const
+
+function MentorSection() {
+  const [files, setFiles] = useState({ releve: false, diplome: false, cert: false })
+  const [filiere, setFiliere] = useState('')
+  const [profApproved, setProfApproved] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+  const hasFile = files.releve || files.diplome || files.cert
+  const canSubmit = hasFile && filiere !== '' && profApproved
+
+  const setFile = (key: keyof typeof files, value: boolean) => {
+    setFiles((prev) => ({ ...prev, [key]: value }))
   }
 
   return (
-    <div className="group relative overflow-hidden rounded-2xl bg-white p-5 shadow-sm ring-1 ring-black/5 transition hover:shadow-lg hover:ring-[var(--sw-pink)]/25">
-      <div
-        className="absolute -right-6 -top-6 h-20 w-20 rounded-full opacity-20 blur-xl transition group-hover:opacity-40"
-        style={{ backgroundColor: badge.color }}
-      />
-      <div
-        className="relative grid h-16 w-16 place-items-center rounded-2xl text-3xl ring-4 ring-[var(--sw-yellow)]/40 transition group-hover:scale-105"
-        style={{ backgroundColor: badge.color }}
-      >
-        {badge.icon}
-      </div>
-      <h3 className="relative mt-3 font-display text-sm text-[var(--sw-text-strong)]">{badge.name}</h3>
-      <p className="relative mt-1 text-xs text-[var(--sw-muted)]">
-        {badge.description ?? 'Badge obtenu grâce à ton activité sur le campus.'}
+    <section className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-black/5 lg:p-6">
+      <h2 className="font-display text-lg text-[var(--sw-text-strong)]">Devenir Mentor</h2>
+      <p className="mt-2 text-sm text-[var(--sw-muted)]">
+        Indique ta filière, confirme l&apos;accord d&apos;un professeur et joins au moins un justificatif.
       </p>
-    </div>
+
+      <label className="mt-4 block">
+        <span className="text-sm font-semibold text-[var(--sw-text-strong)]">Filière concernée</span>
+        <select
+          value={filiere}
+          onChange={(e) => setFiliere(e.target.value)}
+          className="mt-2 w-full rounded-xl bg-[var(--sw-bg)] px-4 py-3 text-sm outline-none ring-1 ring-black/5 focus:ring-[var(--sw-pink)]"
+        >
+          <option value="">Sélectionne ta filière…</option>
+          {MENTOR_FILIERES.map((f) => (
+            <option key={f} value={f}>
+              {f}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <label className="mt-4 flex cursor-pointer items-start gap-3 rounded-2xl bg-[var(--sw-bg)] p-4 ring-1 ring-black/5">
+        <input
+          type="checkbox"
+          checked={profApproved}
+          onChange={(e) => setProfApproved(e.target.checked)}
+          className="mt-1 h-5 w-5 shrink-0 accent-[var(--sw-pink)]"
+        />
+        <span className="text-sm text-[var(--sw-text-strong)]">
+          <span className="font-semibold">Validation professeur</span>
+          <span className="mt-1 block text-[var(--sw-muted)]">
+            Je confirme que ma candidature mentor a été approuvée par un professeur référent de ma filière.
+          </span>
+        </span>
+      </label>
+
+      <div className="mt-4 flex flex-col gap-3">
+        <MentorUpload label="Relevé de notes" accept=".pdf,.jpg,.jpeg,.png" onFileChange={(v) => setFile('releve', v)} />
+        <MentorUpload label="Diplôme" accept=".pdf,.jpg,.jpeg,.png" onFileChange={(v) => setFile('diplome', v)} />
+        <MentorUpload label="Certification" accept=".pdf,.jpg,.jpeg,.png" onFileChange={(v) => setFile('cert', v)} />
+      </div>
+
+      {submitted ? (
+        <p className="mt-4 rounded-2xl bg-emerald-50 px-4 py-3 text-center text-sm font-semibold text-emerald-700">
+          Candidature envoyée pour la filière « {filiere} » — nous te recontactons sous 48h.
+        </p>
+      ) : (
+        <button
+          type="button"
+          disabled={!canSubmit}
+          onClick={() => canSubmit && setSubmitted(true)}
+          className={[
+            'mt-4 w-full rounded-2xl py-3.5 text-sm font-semibold shadow-sm transition',
+            canSubmit
+              ? 'bg-[var(--sw-yellow)] text-black hover:brightness-95'
+              : 'cursor-not-allowed bg-neutral-200 text-neutral-500',
+          ].join(' ')}
+        >
+          Soumettre ma candidature mentor
+        </button>
+      )}
+    </section>
   )
 }
 
-function MentorUpload({ label, accept }: { label: string; accept: string }) {
+function MentorUpload({
+  label,
+  accept,
+  onFileChange,
+}: {
+  label: string
+  accept: string
+  onFileChange: (hasFile: boolean) => void
+}) {
   const [fileName, setFileName] = useState<string | null>(null)
+
   return (
     <label className="flex cursor-pointer items-center gap-3 rounded-2xl border border-dashed border-[var(--sw-pink)]/35 bg-[var(--sw-bg)] px-4 py-3 transition hover:border-[var(--sw-pink)] hover:bg-[var(--sw-pink)]/5">
       <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-[var(--sw-pink)]/10 text-lg">📄</span>
@@ -336,9 +387,143 @@ function MentorUpload({ label, accept }: { label: string; accept: string }) {
         type="file"
         accept={accept}
         className="sr-only"
-        onChange={(e) => setFileName(e.target.files?.[0]?.name ?? null)}
+        onChange={(e) => {
+          const name = e.target.files?.[0]?.name ?? null
+          setFileName(name)
+          onFileChange(!!name)
+        }}
       />
     </label>
+  )
+}
+
+function SwapsHistoryModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const [swaps, setSwaps] = useState<ApiMySwap[]>([])
+  const [loading, setLoading] = useState(false)
+  const [reviewingId, setReviewingId] = useState<number | null>(null)
+  const [rating, setRating] = useState(5)
+  const [comment, setComment] = useState('')
+
+  useEffect(() => {
+    if (!open) return
+    setLoading(true)
+    fetch(`${BASE_URL}/mySwaps`)
+      .then((res) => res.json() as Promise<ApiMySwap[]>)
+      .then(setSwaps)
+      .finally(() => setLoading(false))
+  }, [open])
+
+  const submitReview = (swapId: number) => {
+    setSwaps((prev) =>
+      prev.map((s) =>
+        s.id === swapId ? { ...s, myReviewLeft: true, myRating: rating, myComment: comment } : s,
+      ),
+    )
+    setReviewingId(null)
+    setRating(5)
+    setComment('')
+  }
+
+  return (
+    <Modal open={open} onClose={onClose} title="Mes échanges">
+      {loading ? (
+        <p className="text-sm text-[var(--sw-muted)]">Chargement…</p>
+      ) : swaps.length === 0 ? (
+        <p className="py-4 text-center text-sm text-[var(--sw-muted)]">Aucun échange pour le moment.</p>
+      ) : (
+        <div className="flex max-h-[70vh] flex-col gap-4 overflow-y-auto pr-1">
+          {swaps.map((swap) => (
+            <article key={swap.id} className="rounded-2xl bg-[var(--sw-bg)] p-4 ring-1 ring-black/5">
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <h3 className="font-semibold text-[var(--sw-text-strong)]">{swap.skill}</h3>
+                  <p className="mt-0.5 text-xs text-[var(--sw-muted)]">
+                    avec {swap.partnerName} · {swap.date}
+                  </p>
+                </div>
+                <span className="shrink-0 rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-700">
+                  Terminé
+                </span>
+              </div>
+
+              {swap.ratingReceived != null ? (
+                <div className="mt-3 rounded-xl bg-white p-3">
+                  <p className="text-xs font-semibold text-[var(--sw-muted)]">Note reçue</p>
+                  <p className="mt-1 text-sm text-[var(--sw-orange)]">{'★'.repeat(Math.round(swap.ratingReceived))}</p>
+                  {swap.reviewReceived ? (
+                    <p className="mt-2 text-sm text-[var(--sw-text)]">&laquo; {swap.reviewReceived} &raquo;</p>
+                  ) : null}
+                </div>
+              ) : null}
+
+              {swap.myReviewLeft && swap.myRating != null ? (
+                <div className="mt-3 rounded-xl bg-white p-3">
+                  <p className="text-xs font-semibold text-[var(--sw-muted)]">Ton avis</p>
+                  <p className="text-sm text-[var(--sw-orange)]">{'★'.repeat(Math.round(swap.myRating))}</p>
+                  {swap.myComment ? <p className="mt-1 text-sm text-[var(--sw-muted)]">{swap.myComment}</p> : null}
+                </div>
+              ) : !swap.myReviewLeft && reviewingId === swap.id ? (
+                <form
+                  className="mt-3 flex flex-col gap-3"
+                  onSubmit={(e) => {
+                    e.preventDefault()
+                    submitReview(swap.id)
+                  }}
+                >
+                  <div className="flex gap-1">
+                    {[1, 2, 3, 4, 5].map((n) => (
+                      <button
+                        key={n}
+                        type="button"
+                        onClick={() => setRating(n)}
+                        className={[
+                          'h-9 w-9 rounded-lg text-sm',
+                          n <= rating ? 'bg-[var(--sw-yellow)] text-black' : 'bg-neutral-100 text-neutral-400',
+                        ].join(' ')}
+                      >
+                        ★
+                      </button>
+                    ))}
+                  </div>
+                  <textarea
+                    rows={3}
+                    required
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                    placeholder="Ton commentaire…"
+                    className="w-full resize-none rounded-xl bg-white p-3 text-sm outline-none ring-1 ring-black/5"
+                  />
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setReviewingId(null)}
+                      className="flex-1 rounded-xl bg-neutral-100 py-2 text-sm font-semibold text-[var(--sw-muted)]"
+                    >
+                      Annuler
+                    </button>
+                    <button type="submit" className="flex-1 rounded-xl bg-[var(--sw-pink)] py-2 text-sm font-semibold text-white">
+                      Publier
+                    </button>
+                  </div>
+                </form>
+              ) : !swap.myReviewLeft ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setReviewingId(swap.id)
+                    setRating(5)
+                    setComment('')
+                  }}
+                  className="mt-3 text-sm font-semibold text-[var(--sw-pink)] hover:underline"
+                >
+                  Laisser un avis
+                </button>
+              ) : null}
+            </article>
+          ))}
+        </div>
+      )}
+    </Modal>
   )
 }
 
