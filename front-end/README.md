@@ -97,3 +97,5 @@ npm install
 npm run dev
 npm run build
 ```
+# À la racine de ton projet (pas dans front/ ni back/)
+``json-server --watch db.json --port 3001``
