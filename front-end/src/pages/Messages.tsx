@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { BASE_URL } from '../api/config.js'
+import { apiGet } from '../api/request.ts'
 import type { ApiConversation, ApiMessage, ApiUser } from '../api/types.ts'
 import { userFullName } from '../api/types.ts'
 import { useAuth } from '../context/AuthContext.tsx'
@@ -31,9 +31,9 @@ export function Messages() {
 
   useEffect(() => {
     Promise.all([
-      fetch(`${BASE_URL}/conversations`).then((res) => res.json() as Promise<ApiConversation[]>),
-      fetch(`${BASE_URL}/users`).then((res) => res.json() as Promise<ApiUser[]>),
-      fetch(`${BASE_URL}/messages`).then((res) => res.json() as Promise<ApiMessage[]>),
+      apiGet<ApiConversation[]>('/conversations'),
+      apiGet<ApiUser[]>('/users'),
+      apiGet<ApiMessage[]>('/messages'),
     ])
       .then(([convData, usersData, msgData]) => {
         setConversations(Array.isArray(convData) ? convData : [])

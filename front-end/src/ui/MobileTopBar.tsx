@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { assetUrl } from '../utils/assetUrl.ts'
 import { AuthActions } from './AuthActions.tsx'
 import { NotificationLink } from './NotificationLink.tsx'
 
@@ -7,7 +8,7 @@ export function MobileTopBar() {
     <header className="sticky top-0 z-30 border-b border-black/10 bg-[var(--sw-bg)]/95 backdrop-blur lg:hidden">
       <div className="mx-auto flex max-w-6xl items-center gap-2 px-4 py-3 md:px-6">
         <Link to="/" className="shrink-0">
-          <img src="/logoskillwapp.png" alt="SkillWapp" className="h-10 w-12" />
+          <img src={assetUrl('logoskillwapp.png')} alt="SkillWapp" className="h-10 w-12" />
         </Link>
         <div className="ml-auto flex items-center gap-2">
           <NotificationLink />

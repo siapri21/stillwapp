@@ -55,25 +55,35 @@ export default defineConfig({
 
 ---
 
-## API
+## Données (`db.json`)
 
-Créer un fichier :
+Le fichier mock est à la racine de `front-end/db.json`.
 
-```ts
-src/api/api.ts
+### En local (avec json-server)
+
+```bash
+# Terminal 1
+npm run api
+
+# Terminal 2 — optionnel : copier .env.example vers .env
+npm run dev
 ```
 
-Exemple :
+Avec `VITE_API_URL=http://localhost:3001` dans `.env`, l’app appelle json-server.
 
-```ts
-import axios from "axios";
+### En production (Netlify, Vercel, GitHub Pages…)
 
-const API = axios.create({
-  baseURL: "http://localhost:5000",
-});
+- **Ne pas** définir `VITE_API_URL` (ou laisser vide).
+- Au build, `db.json` est **embarqué** dans le bundle : pas besoin de json-server en ligne.
+- Les images des compétences dans `db.json` sont des URLs **Unsplash** (`https://images.unsplash.com/...`) — elles fonctionnent en prod.
+- Le logo est dans `public/logoskillwapp.png` (servi via `assetUrl()`).
 
-export default API;
+```bash
+npm run build
+# Publier le dossier dist/
 ```
+
+Si le site est hébergé dans un **sous-dossier** (ex. GitHub Pages `/StillWapp/`), configurer dans `vite.config.ts` : `base: '/StillWapp/'`.
 
 ---
 
@@ -97,5 +107,4 @@ npm install
 npm run dev
 npm run build
 ```
-# À la racine de ton projet (pas dans front/ ni back/)
-``json-server --watch db.json --port 3001``
+Depuis `front-end/` : `npm run api`

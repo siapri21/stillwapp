@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { BASE_URL } from '../api/config.js'
+import { apiGet } from '../api/request.ts'
 import type { ApiBadge, ApiChallenge, ApiCurrentUser, ApiLeaderboardEntry, ApiUser } from '../api/types.ts'
 import { userFullName } from '../api/types.ts'
 import { AvatarImage } from '../ui/AvatarImage.tsx'
@@ -25,11 +25,11 @@ export function Dashboard() {
 
   useEffect(() => {
     Promise.all([
-      fetch(`${BASE_URL}/currentUser`).then((res) => res.json() as Promise<ApiCurrentUser>),
-      fetch(`${BASE_URL}/badges`).then((res) => res.json() as Promise<ApiBadge[]>),
-      fetch(`${BASE_URL}/leaderboard`).then((res) => res.json() as Promise<ApiLeaderboardEntry[]>),
-      fetch(`${BASE_URL}/users`).then((res) => res.json() as Promise<ApiUser[]>),
-      fetch(`${BASE_URL}/challenges`).then((res) => res.json() as Promise<ApiChallenge[]>),
+      apiGet<ApiCurrentUser>('/currentUser'),
+      apiGet<ApiBadge[]>('/badges'),
+      apiGet<ApiLeaderboardEntry[]>('/leaderboard'),
+      apiGet<ApiUser[]>('/users'),
+      apiGet<ApiChallenge[]>('/challenges'),
     ])
       .then(([currentUser, badgesData, leaderboardData, usersData, challengesData]) => {
         setUser(currentUser)

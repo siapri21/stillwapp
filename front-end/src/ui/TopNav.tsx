@@ -3,6 +3,7 @@ import { accountNavItems, publicNavItems } from '../config/nav.ts'
 import { useAuth } from '../context/AuthContext.tsx'
 import { AuthActions } from './AuthActions.tsx'
 import { NavLinkItem } from './NavLinkItem.tsx'
+import { assetUrl } from '../utils/assetUrl.ts'
 import { NotificationLink } from './NotificationLink.tsx'
 
 const navClass = ({ isActive }: { isActive: boolean }) =>
@@ -21,7 +22,7 @@ export function TopNav() {
     <header className="fixed top-0 left-0 right-0 z-50 hidden border-b border-black/10 bg-white/95 backdrop-blur lg:block">
       <div className="flex items-center gap-4 px-[10%] py-3">
         <NavLink to="/" className="shrink-0">
-          <img src="/logoskillwapp.png" alt="SkillWapp" className="h-10 w-12" />
+          <img src={assetUrl('logoskillwapp.png')} alt="SkillWapp" className="h-10 w-12" />
         </NavLink>
 
         <nav className="flex flex-1 items-center justify-center gap-1">

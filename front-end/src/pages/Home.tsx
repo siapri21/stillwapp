@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
-import { BASE_URL } from '../api/config.js'
+import { apiGet } from '../api/request.ts'
 import type { ApiFeedPost, ApiSkill, ApiUser } from '../api/types.ts'
 import { userFullName } from '../api/types.ts'
 import { useAuth } from '../context/AuthContext.tsx'
@@ -39,10 +39,10 @@ export function Home() {
 
   useEffect(() => {
     Promise.all([
-      fetch(`${BASE_URL}/skills`).then((res) => res.json() as Promise<ApiSkill[]>),
-      fetch(`${BASE_URL}/users`).then((res) => res.json() as Promise<ApiUser[]>),
-      fetch(`${BASE_URL}/feed`).then((res) => res.json() as Promise<ApiFeedPost[]>),
-      fetch(`${BASE_URL}/communityStats`).then((res) => res.json() as Promise<CommunityStats>),
+      apiGet<ApiSkill[]>('/skills'),
+      apiGet<ApiUser[]>('/users'),
+      apiGet<ApiFeedPost[]>('/feed'),
+      apiGet<CommunityStats>('/communityStats'),
     ])
       .then(([skillsData, usersData, feedData, statsData]) => {
         setCommunityStats(statsData)

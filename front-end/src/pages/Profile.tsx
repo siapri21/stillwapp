@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { BASE_URL } from '../api/config.js'
+import { apiGet } from '../api/request.ts'
 import type { ApiCurrentUser, ApiMySwap, ApiSkill } from '../api/types.ts'
 import { userFullName } from '../api/types.ts'
 import { useAuth } from '../context/AuthContext.tsx'
@@ -23,8 +23,8 @@ export function Profile() {
 
   useEffect(() => {
     Promise.all([
-      fetch(`${BASE_URL}/currentUser`).then((res) => res.json() as Promise<ApiCurrentUser>),
-      fetch(`${BASE_URL}/skills`).then((res) => res.json() as Promise<ApiSkill[]>),
+      apiGet<ApiCurrentUser>('/currentUser'),
+      apiGet<ApiSkill[]>('/skills'),
     ])
       .then(([currentUser, skillsData]) => {
         setUser(currentUser)
@@ -407,9 +407,7 @@ function SwapsHistoryModal({ open, onClose }: { open: boolean; onClose: () => vo
   useEffect(() => {
     if (!open) return
     setLoading(true)
-    fetch(`${BASE_URL}/mySwaps`)
-      .then((res) => res.json() as Promise<ApiMySwap[]>)
-      .then(setSwaps)
+    apiGet<ApiMySwap[]>('/mySwaps').then(setSwaps)
       .finally(() => setLoading(false))
   }, [open])
 

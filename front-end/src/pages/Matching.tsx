@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { MessageCircle, X, Zap } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { BASE_URL } from '../api/config.js'
+import { apiGet } from '../api/request.ts'
 import type { ApiMatch, ApiUser } from '../api/types.ts'
 import { userFullName } from '../api/types.ts'
 import { AvatarImage } from '../ui/AvatarImage.tsx'
@@ -128,11 +128,9 @@ export function Matching() {
     const passedIds = new Set(readPassedMatchIds())
 
     Promise.all([
-      fetch(`${BASE_URL}/matches`).then((res) => res.json() as Promise<ApiMatch[]>),
-      fetch(`${BASE_URL}/users`).then((res) => res.json() as Promise<ApiUser[]>),
-      fetch(`${BASE_URL}/conversations`).then((res) =>
-        res.ok ? (res.json() as Promise<{ id: number; participantIds: number[] }[]>) : [],
-      ),
+      apiGet<ApiMatch[]>('/matches'),
+      apiGet<ApiUser[]>('/users'),
+      apiGet<{ id: number; participantIds: number[] }[]>('/conversations').catch(() => []),
     ])
       .then(([matchesData, usersData, convData]) => {
         if (cancelled) return

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { BASE_URL } from '../api/config.js'
+import { apiGet } from '../api/request.ts'
 import type { ApiSkill, ApiUser } from '../api/types.ts'
 import { userFullName } from '../api/types.ts'
 import { exploreCategories, type ExploreCategory } from '../data/categories.ts'
@@ -17,8 +17,8 @@ export function Explore() {
 
   useEffect(() => {
     Promise.all([
-      fetch(`${BASE_URL}/skills`).then((res) => res.json() as Promise<ApiSkill[]>),
-      fetch(`${BASE_URL}/users`).then((res) => res.json() as Promise<ApiUser[]>),
+      apiGet<ApiSkill[]>('/skills'),
+      apiGet<ApiUser[]>('/users'),
     ])
       .then(([skillsData, usersData]) => {
         setSkills(skillsData)

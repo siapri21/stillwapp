@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { BASE_URL } from '../api/config.js'
+import { apiGet } from '../api/request.ts'
 import type { ApiNotification } from '../api/types.ts'
 import { PageMain } from '../ui/PageMain.tsx'
 
@@ -9,9 +9,7 @@ export function Notifications() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch(`${BASE_URL}/notifications`)
-      .then((res) => res.json() as Promise<ApiNotification[]>)
-      .then(setItems)
+    apiGet<ApiNotification[]>('/notifications').then(setItems)
       .finally(() => setLoading(false))
   }, [])
 

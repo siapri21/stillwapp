@@ -1,11 +1,12 @@
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { BASE_URL } from '../api/config.js'
+import { apiGet } from '../api/request.ts'
 import type { ApiUser } from '../api/types.ts'
 import { userFullName } from '../api/types.ts'
 import { useAuth } from '../context/AuthContext.tsx'
 import { AvatarImage } from '../ui/AvatarImage.tsx'
 import { CoverImage } from '../ui/CoverImage.tsx'
+import { assetUrl } from '../utils/assetUrl.ts'
 import { imageForCampus } from '../utils/images.ts'
 
 
@@ -51,11 +52,7 @@ export function Auth() {
 
   useEffect(() => {
 
-    fetch(`${BASE_URL}/users`)
-
-      .then((res) => res.json() as Promise<ApiUser[]>)
-
-      .then(setUsers)
+    apiGet<ApiUser[]>('/users').then(setUsers)
 
   }, [])
 
@@ -173,7 +170,7 @@ export function Auth() {
 
       <div className="relative mx-auto max-w-md text-center">
 
-        <img src="/logoskillwapp.png" alt="SkillWapp" className="mx-auto h-14 w-14" />
+        <img src={assetUrl('logoskillwapp.png')} alt="SkillWapp" className="mx-auto h-14 w-14" />
 
         <p className="mt-4 text-sm font-medium text-white/90">
 

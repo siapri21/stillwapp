@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { BASE_URL } from '../api/config.js'
+import { apiGet } from '../api/request.ts'
 import type { ApiSessionReview, ApiUser } from '../api/types.ts'
 import { userFullName } from '../api/types.ts'
 import { AvatarImage } from '../ui/AvatarImage.tsx'
@@ -21,8 +21,8 @@ export function Reviews() {
 
   useEffect(() => {
     Promise.all([
-      fetch(`${BASE_URL}/sessionReviews`).then((res) => res.json() as Promise<ApiSessionReview[]>),
-      fetch(`${BASE_URL}/users`).then((res) => res.json() as Promise<ApiUser[]>),
+      apiGet<ApiSessionReview[]>('/sessionReviews'),
+      apiGet<ApiUser[]>('/users'),
     ])
       .then(([reviewsData, usersData]) => {
         setReviews(reviewsData)

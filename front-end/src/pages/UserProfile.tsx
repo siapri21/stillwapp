@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { BASE_URL } from '../api/config.js'
+import { apiGet, apiTryGet } from '../api/request.ts'
 import type { ApiSkill, ApiUser, ApiUserWish } from '../api/types.ts'
 import { userFullName } from '../api/types.ts'
 import { AvatarImage } from '../ui/AvatarImage.tsx'
@@ -26,17 +26,11 @@ export function UserProfile() {
 
     const load = async () => {
       try {
-        let userData: ApiUser | null = null
-        const userRes = await fetch(`${BASE_URL}/users/${id}`)
-        if (userRes.ok) {
-          userData = (await userRes.json()) as ApiUser
-        } else {
-          const listRes = await fetch(`${BASE_URL}/users`)
-          if (listRes.ok) {
-            const list = (await listRes.json()) as ApiUser[]
-            userData = (Array.isArray(list) ? list : []).find((u) => Number(u.id) === id) ?? null
-          }
-        }
+        const userData =
+          (await apiTryGet<ApiUser>(`/users/${id}`)) ??
+          (await apiGet<ApiUser[]>('/users')).find((u) => Number(u.id) === id) ??
+          null
+
         if (cancelled) return
         if (!userData) {
           setUser(null)
@@ -44,44 +38,27 @@ export function UserProfile() {
         }
         setUser(userData)
 
-        const [skillsRes, wishesRes, convRes] = await Promise.all([
-          fetch(`${BASE_URL}/skills`),
-          fetch(`${BASE_URL}/userWishes`),
-          fetch(`${BASE_URL}/conversations`),
+        const [skillsData, wishesData, convData] = await Promise.all([
+          apiGet<ApiSkill[]>('/skills').catch(() => [] as ApiSkill[]),
+          apiGet<ApiUserWish[]>('/userWishes').catch(() => [] as ApiUserWish[]),
+          apiGet<{ id: number; participantIds: number[] }[]>('/conversations').catch(
+            () => [] as { id: number; participantIds: number[] }[],
+          ),
         ])
 
         if (cancelled) return
 
-        if (skillsRes.ok) {
-          const skillsData = (await skillsRes.json()) as ApiSkill[]
-          setSkills(
-            (Array.isArray(skillsData) ? skillsData : []).filter(
-              (s) => Number(s.userId) === id,
-            ),
-          )
-        } else {
-          setSkills([])
-        }
+        setSkills(skillsData.filter((s) => Number(s.userId) === id))
 
-        if (wishesRes.ok) {
-          const wishesData = (await wishesRes.json()) as ApiUserWish[]
-          const wishEntry = (Array.isArray(wishesData) ? wishesData : []).find(
-            (w) => Number(w.userId) === id,
-          )
-          setWishes(wishEntry?.skills ?? [])
-        } else {
-          setWishes([])
-        }
+        const wishEntry = wishesData.find((w) => Number(w.userId) === id)
+        setWishes(wishEntry?.skills ?? [])
 
-        if (convRes.ok) {
-          const convData = (await convRes.json()) as { id: number; participantIds: number[] }[]
-          const conv = (Array.isArray(convData) ? convData : []).find(
-            (c) => c.participantIds.map(Number).includes(id) && c.participantIds.map(Number).includes(1),
-          )
-          setConversationId(conv?.id ?? null)
-        } else {
-          setConversationId(null)
-        }
+        const conv = convData.find(
+          (c) =>
+            c.participantIds.map(Number).includes(id) &&
+            c.participantIds.map(Number).includes(1),
+        )
+        setConversationId(conv?.id ?? null)
       } catch {
         if (!cancelled) setUser(null)
       } finally {

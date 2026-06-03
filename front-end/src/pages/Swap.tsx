@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { BASE_URL } from '../api/config.js'
+import { apiGet } from '../api/request.ts'
 import type { ApiSession, ApiUser } from '../api/types.ts'
 import { userFullName } from '../api/types.ts'
 import { AvatarImage } from '../ui/AvatarImage.tsx'
 import { CoverImage } from '../ui/CoverImage.tsx'
 import { Modal } from '../ui/Modal.tsx'
+import { assetUrl } from '../utils/assetUrl.ts'
 import { NotificationLink } from '../ui/NotificationLink.tsx'
 import { PageMain } from '../ui/PageMain.tsx'
 import { unsplashUrl } from '../utils/images.ts'
@@ -31,8 +32,8 @@ export function Swap() {
 
   useEffect(() => {
     Promise.all([
-      fetch(`${BASE_URL}/sessions`).then((res) => res.json() as Promise<ApiSession[]>),
-      fetch(`${BASE_URL}/users`).then((res) => res.json() as Promise<ApiUser[]>),
+      apiGet<ApiSession[]>('/sessions'),
+      apiGet<ApiUser[]>('/users'),
     ])
       .then(([sessionsData, usersData]) => {
         const mapped = sessionsData.map((session) => {
@@ -55,7 +56,7 @@ export function Swap() {
     <>
       <header className="sticky top-0 z-30 bg-[var(--sw-bg)]/90 backdrop-blur supports-[backdrop-filter]:bg-[var(--sw-bg)]/70 lg:hidden">
         <div className="mx-auto flex w-full max-w-6xl items-center gap-3 px-4 py-3 md:px-6">
-          <img src="/logoskillwapp.png" alt="SkillWapp" className="h-10 w-10 rounded-full object-cover" />
+          <img src={assetUrl('logoskillwapp.png')} alt="SkillWapp" className="h-10 w-10 rounded-full object-cover" />
           <div className="ml-auto">
             <NotificationLink />
           </div>

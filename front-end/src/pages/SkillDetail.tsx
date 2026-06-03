@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { BASE_URL } from '../api/config.js'
+import { apiGet } from '../api/request.ts'
 import type { ApiSkill, ApiUser } from '../api/types.ts'
 import { userFullName } from '../api/types.ts'
 import { Modal } from '../ui/Modal.tsx'
@@ -32,14 +32,10 @@ export function SkillDetail() {
       return
     }
 
-    fetch(`${BASE_URL}/skills/${id}`)
-      .then((res) => {
-        if (!res.ok) throw new Error('not found')
-        return res.json() as Promise<ApiSkill>
-      })
+    apiGet<ApiSkill>(`/skills/${id}`)
       .then((skillData) => {
         setSkill(skillData)
-        return fetch(`${BASE_URL}/users/${skillData.userId}`).then((res) => res.json() as Promise<ApiUser>)
+        return apiGet<ApiUser>(`/users/${skillData.userId}`)
       })
       .then(setAuthor)
       .catch(() => {

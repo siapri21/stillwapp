@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
+import { assetUrl } from '../utils/assetUrl.ts'
 
 export function SiteFooter() {
   return (
@@ -7,7 +8,7 @@ export function SiteFooter() {
       <div className="mx-auto w-full max-w-6xl px-4 py-8 pb-24 md:px-6 lg:px-0 lg:pb-8">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           <div>
-            <img src="/logoskillwapp.png" alt="SkillWapp" className="h-9 w-11" />
+            <img src={assetUrl('logoskillwapp.png')} alt="SkillWapp" className="h-9 w-11" />
             <p className="mt-2 max-w-xs text-xs leading-relaxed text-[var(--sw-muted)] sm:text-sm">
               Échange tes compétences avec les étudiants de ton campus.
             </p>
