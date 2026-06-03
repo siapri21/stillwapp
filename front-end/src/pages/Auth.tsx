@@ -1,19 +1,11 @@
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-
 import { useEffect, useState } from 'react'
-
 import { BASE_URL } from '../api/config.js'
-
 import type { ApiUser } from '../api/types.ts'
-
 import { userFullName } from '../api/types.ts'
-
 import { useAuth } from '../context/AuthContext.tsx'
-
 import { AvatarImage } from '../ui/AvatarImage.tsx'
-
 import { CoverImage } from '../ui/CoverImage.tsx'
-
 import { imageForCampus } from '../utils/images.ts'
 
 
