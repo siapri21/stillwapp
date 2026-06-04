@@ -37,7 +37,7 @@ export function SiteFooter() {
           <div>
             <h3 className="font-display text-xs text-[var(--sw-text-strong)] sm:text-sm">Support</h3>
             <ul className="mt-2 space-y-1.5 text-xs text-[var(--sw-muted)] sm:text-sm">
-              <li>Campus · Paris</li>
+              <li>Campus, Paris</li>
               <li>
                 <a href="mailto:contact@skillwapp.fr" className="hover:text-[var(--sw-pink)]">
                   contact@skillwapp.fr

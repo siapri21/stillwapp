@@ -107,7 +107,7 @@ export function Home() {
               Prêt à troquer tes talents&nbsp;?
             </h1>
             <p className="mt-3 max-w-lg text-sm text-white/90 md:text-base">
-              Trouve un pair sur le campus, échange une compétence contre une autre — simple et gratuit.
+              Trouve un pair sur le campus, échange une compétence contre une autre, simple et gratuit.
             </p>
             <SearchBar className="mt-6 max-w-xl" placeholder="Trouver une compétence…" />
             <div className="mt-5 flex flex-wrap gap-3">

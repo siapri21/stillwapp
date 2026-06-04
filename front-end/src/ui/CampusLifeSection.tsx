@@ -6,7 +6,7 @@ import { imageForCampus, imageForChallenge, imageForHero, unsplashUrl } from '..
 const moments = [
   {
     title: 'Ateliers entre pairs',
-    text: 'Design, code, musique — on apprend ensemble sur le campus.',
+    text: 'Design, code, musique : on apprend ensemble sur le campus.',
     image: imageForHero(800, 600),
     className: 'min-h-[220px] sm:col-span-2 sm:row-span-2 sm:min-h-[320px] lg:min-h-0',
   },
@@ -24,7 +24,7 @@ const moments = [
   },
   {
     title: 'Vie étudiante',
-    text: 'Bibliothèque, résidence, amphi — le réseau suit ton rythme.',
+    text: 'Bibliothèque, résidence, amphi : le réseau suit ton rythme.',
     image: unsplashUrl('étudiants campus', 700, 400),
     className: 'min-h-[160px] sm:col-span-2 lg:min-h-0',
   },

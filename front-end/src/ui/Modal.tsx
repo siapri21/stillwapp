@@ -38,7 +38,7 @@ export function Modal({ open, onClose, title, children }: ModalProps) {
         className="relative w-full max-w-md rounded-3xl bg-white p-5 shadow-xl ring-1 ring-black/5"
       >
         <div className="flex items-center justify-between gap-3">
-          <h2 id="modal-title" className="text-lg font-semibold text-[var(--sw-text-strong)]">
+          <h2 id="modal-title" className="font-display text-lg text-[var(--sw-text-strong)]">
             {title}
           </h2>
           <button

@@ -135,20 +135,20 @@ export function SkillDetail() {
               <div className="mt-0.5 flex items-center gap-1 text-xs font-semibold text-emerald-600">
                 <span>★</span>
                 {authorRating.toFixed(1)}
-                <span className="font-normal text-[var(--sw-muted)]">· {swapCount} swaps</span>
+                <span className="font-normal text-[var(--sw-muted)]">, {swapCount} swaps</span>
               </div>
             </div>
           </div>
         </div>
 
-        <h1 className="mt-5 text-2xl font-semibold text-[var(--sw-text-strong)] md:text-3xl">{skill.title}</h1>
+        <h1 className="font-display mt-5 text-2xl text-[var(--sw-text-strong)] md:text-3xl">{skill.title}</h1>
 
         <p className="mt-4 rounded-2xl bg-white p-4 text-sm leading-relaxed text-[var(--sw-muted)] shadow-sm ring-1 ring-black/5">
           {skill.description}
         </p>
 
         <section className="mt-6">
-          <h2 className="text-xs font-bold uppercase tracking-wide text-[var(--sw-muted)]">Ce que tu vas apprendre</h2>
+          <h2 className="font-display text-xs uppercase tracking-wide text-[var(--sw-muted)]">Ce que tu vas apprendre</h2>
           <div className="mt-3 flex flex-col gap-3">
             {skill.tags.map((tag, i) => (
               <div key={tag} className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-black/5">
@@ -164,7 +164,7 @@ export function SkillDetail() {
         </section>
 
         <section className="mt-6">
-          <h2 className="text-xs font-bold uppercase tracking-wide text-[var(--sw-muted)]">Derniers retours</h2>
+          <h2 className="font-display text-xs uppercase tracking-wide text-[var(--sw-muted)]">Derniers retours</h2>
           <div className="mt-3 -mx-4 flex gap-4 overflow-x-auto px-4 pb-2 md:mx-0 md:px-0">
             {skill.reviews.length === 0 ? (
               <p className="text-sm text-[var(--sw-muted)]">Aucun avis pour le moment.</p>

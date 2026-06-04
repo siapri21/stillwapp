@@ -85,7 +85,7 @@ export function Reviews() {
                       <span className="text-[var(--sw-orange)]">{'★'.repeat(Math.round(r.rating))}</span>
                     </div>
                     <p className="mt-0.5 text-xs text-[var(--sw-muted)]">
-                      {r.skill} · {r.date}
+                      {r.skill}, {r.date}
                     </p>
                     <p className="mt-2 font-body text-sm text-[var(--sw-text)]">{r.comment}</p>
                   </div>

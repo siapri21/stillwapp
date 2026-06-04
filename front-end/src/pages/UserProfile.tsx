@@ -134,7 +134,8 @@ export function UserProfile() {
               <h1 className="font-display text-2xl text-[var(--sw-text-strong)] lg:text-4xl">{fullName}</h1>
               <p className="mt-1 text-sm text-[var(--sw-muted)]">{user.university}</p>
               <p className="mt-2 text-sm text-[var(--sw-muted)]">
-                {user.location} · {user.distance}
+                {user.location}
+                {user.distance ? `, ${user.distance}` : ''}
               </p>
               <div className="mt-4 flex flex-wrap justify-center gap-4 lg:justify-start">
                 <Stat label="Note" value={`${user.rating.toFixed(1)} ★`} />

@@ -151,7 +151,7 @@ export function Dashboard() {
         </section>
 
         <section className="mt-6">
-          <h2 className="text-lg font-semibold text-[var(--sw-text-strong)]">Top échangeurs</h2>
+          <h2 className="font-display text-lg text-[var(--sw-text-strong)]">Top échangeurs</h2>
           <div className="mt-3 overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/5">
             {leaderboard.map((entry) => (
               <div
@@ -179,7 +179,7 @@ export function Dashboard() {
             <div className="relative flex items-end justify-between gap-4">
               <div>
                 <span className="rounded-full bg-emerald-400 px-2 py-0.5 text-[10px] font-bold text-black">DÉFI DU JOUR</span>
-                <h3 className="mt-2 text-xl font-bold">{challenge.title}</h3>
+                <h3 className="font-display mt-2 text-xl">{challenge.title}</h3>
                 <p className="mt-1 text-sm text-white/70">+{challenge.reward} XP de récompense</p>
               </div>
               <button type="button" className="shrink-0 rounded-xl bg-white px-4 py-2 text-sm font-semibold text-violet-700">

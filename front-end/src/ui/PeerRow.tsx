@@ -62,7 +62,7 @@ export function PeerRow({ id, name, offer, distance, place, rating, online }: Pe
             Propose : <span className="font-semibold text-[var(--sw-pink)]">{offer}</span>
           </div>
           <div className="mt-0.5 truncate text-xs text-[var(--sw-muted)]">
-            À {distance} • {place}
+            À {distance}, {place}
           </div>
         </div>
 

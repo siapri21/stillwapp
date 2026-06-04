@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
 @theme {
-  --font-display: 'Koulen', system-ui, sans-serif;
-  --font-body: 'Kedebideri', system-ui, sans-serif;
+  --font-display: 'Inter', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
 }
 
 :root {
@@ -32,8 +33,8 @@
   --ring: 230 0 126;
   --radius: 0.75rem;
 
-  font: 16px/145% var(--font-body), system-ui, sans-serif;
-  letter-spacing: 0.18px;
+  font: 16px/1.45 var(--font-body), system-ui, sans-serif;
+  letter-spacing: -0.01em;
   color-scheme: light;
   color: var(--sw-text);
   background: var(--sw-bg);
@@ -56,8 +57,7 @@ h1,
 h2,
 h3 {
   font-family: var(--font-display);
-  font-weight: 400;
-  letter-spacing: 0.02em;
+  letter-spacing: -0.02em;
 }
 
 .font-body {

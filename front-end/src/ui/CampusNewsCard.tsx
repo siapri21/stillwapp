@@ -64,7 +64,7 @@ export function CampusNewsCard({ post, feedHref = '/feed' }: { post: CampusNewsI
         </div>
         <p className="mt-2 text-sm text-[var(--sw-text)]">
           A appris <span className="font-semibold text-[var(--sw-pink)]">{post.skill}</span>
-          <span className="text-[var(--sw-muted)]"> · {post.time}</span>
+          <span className="text-[var(--sw-muted)]">, {post.time}</span>
         </p>
       </CardHeader>
 

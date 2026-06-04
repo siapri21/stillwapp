@@ -144,7 +144,7 @@ export function Auth() {
 
       location: 'Campus',
 
-      distance: '—',
+      distance: '',
 
     }
 

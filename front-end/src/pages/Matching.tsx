@@ -65,7 +65,7 @@ function MatchCard({
         <div className="mt-3 text-center">
           <h2 className="font-display text-xl text-[var(--sw-text-strong)]">{match.name}</h2>
           <p className="mt-1 text-xs text-[var(--sw-muted)]">
-            {match.location} · {match.distance}
+            {match.location}, {match.distance}
           </p>
         </div>
 

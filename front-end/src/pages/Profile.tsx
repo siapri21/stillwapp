@@ -178,7 +178,7 @@ export function Profile() {
                   )
                 ) : (
                   <p className="rounded-2xl bg-white p-6 text-center text-sm text-[var(--sw-muted)] shadow-sm ring-1 ring-black/5 lg:col-span-2">
-                    Python, UI Design — configure tes souhaits depuis les paramètres (bientôt).
+                    Python, UI Design. Configure tes souhaits depuis les paramètres (bientôt).
                   </p>
                 )}
               </div>
@@ -261,7 +261,7 @@ function TalentCard({ skill }: { skill: ApiSkill }) {
               {skill.category}
             </span>
           </div>
-          <p className="mt-0.5 truncate text-xs text-[var(--sw-muted)]">{skill.tags.join(' • ')}</p>
+          <p className="mt-0.5 truncate text-xs text-[var(--sw-muted)]">{skill.tags.join(', ')}</p>
           <button
             type="button"
             className="mt-4 inline-flex items-center justify-center rounded-xl bg-[var(--sw-pink)] px-4 py-2 text-xs font-semibold text-white shadow-sm hover:brightness-95 active:brightness-90"
@@ -344,7 +344,7 @@ function MentorSection() {
 
       {submitted ? (
         <p className="mt-4 rounded-2xl bg-emerald-50 px-4 py-3 text-center text-sm font-semibold text-emerald-700">
-          Candidature envoyée pour la filière « {filiere} » — nous te recontactons sous 48h.
+          Candidature envoyée pour la filière « {filiere} ». Nous te recontactons sous 48h.
         </p>
       ) : (
         <button
@@ -434,9 +434,9 @@ function SwapsHistoryModal({ open, onClose }: { open: boolean; onClose: () => vo
             <article key={swap.id} className="rounded-2xl bg-[var(--sw-bg)] p-4 ring-1 ring-black/5">
               <div className="flex items-start justify-between gap-2">
                 <div>
-                  <h3 className="font-semibold text-[var(--sw-text-strong)]">{swap.skill}</h3>
+                  <h3 className="font-display text-[var(--sw-text-strong)]">{swap.skill}</h3>
                   <p className="mt-0.5 text-xs text-[var(--sw-muted)]">
-                    avec {swap.partnerName} · {swap.date}
+                    avec {swap.partnerName}, {swap.date}
                   </p>
                 </div>
                 <span className="shrink-0 rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-700">
