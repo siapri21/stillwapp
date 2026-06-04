@@ -30,9 +30,19 @@ export function BottomNav() {
   const { isAuthenticated } = useAuth()
   const items = itemsForAuth(isAuthenticated)
 
+  const shortLabel = (to: string, label: string) => {
+    if (to === '/messages') return 'Messages'
+    if (to === '/planning') return 'Planning'
+    return label
+  }
+
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-black/10 bg-white/92 backdrop-blur supports-[backdrop-filter]:bg-white/70 lg:hidden">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-2 py-2 sm:px-4 sm:py-3">
+    <nav
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-black/10 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85 lg:hidden"
+      style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+      aria-label="Navigation principale"
+    >
+      <div className="mx-auto flex h-[var(--bottom-nav-height)] max-w-6xl items-stretch justify-between gap-0.5 px-1 sm:gap-1 sm:px-3">
         {items.map((it) => {
           const to = it.to === '/auth' ? '/auth' : navTarget(it, isAuthenticated)
           const needsLock = Boolean(it.requiresAuth && !isAuthenticated)
@@ -42,10 +52,10 @@ export function BottomNav() {
               <Link
                 key="auth"
                 to="/auth"
-                className="flex min-w-0 flex-1 flex-col items-center gap-0.5 text-[10px] font-semibold text-[var(--sw-orange)] sm:gap-1 sm:text-xs"
+                className="flex min-h-11 min-w-0 flex-1 flex-col items-center justify-center gap-0.5 px-0.5 text-[10px] font-semibold text-[var(--sw-orange)] sm:text-[11px]"
               >
                 <it.icon />
-                <span className="truncate">Connexion</span>
+                <span className="max-w-full truncate">Connexion</span>
               </Link>
             )
           }
@@ -57,13 +67,13 @@ export function BottomNav() {
               end={it.end}
               className={({ isActive }) =>
                 [
-                  'flex min-w-0 flex-1 flex-col items-center gap-0.5 text-[10px] font-semibold sm:gap-1 sm:text-xs',
+                  'flex min-h-11 min-w-0 flex-1 flex-col items-center justify-center gap-0.5 px-0.5 text-[10px] font-semibold sm:text-[11px]',
                   isActive ? 'text-[var(--sw-pink)]' : 'text-[var(--sw-muted)] hover:text-[var(--sw-text-strong)]',
                 ].join(' ')
               }
             >
               {it.to === '/matching' && needsLock ? <MatchIcon locked /> : <it.icon />}
-              <span className="truncate">{it.label}</span>
+              <span className="max-w-full truncate">{shortLabel(it.to, it.label)}</span>
             </NavLink>
           )
         })}

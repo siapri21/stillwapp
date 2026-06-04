@@ -4,8 +4,8 @@ import { assetUrl } from '../utils/assetUrl.ts'
 
 export function SiteFooter() {
   return (
-    <footer className="shrink-0 border-t border-black/10 bg-white lg:px-[10%]">
-      <div className="mx-auto w-full max-w-6xl px-4 py-8 pb-24 md:px-6 lg:px-0 lg:pb-8">
+    <footer className="hidden shrink-0 border-t border-black/10 bg-white lg:block lg:px-[10%]">
+      <div className="mx-auto w-full max-w-6xl px-4 py-8 md:px-6 lg:px-0">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           <div>
             <img src={assetUrl('logoskillwapp.png')} alt="SkillWapp" className="h-9 w-11" />

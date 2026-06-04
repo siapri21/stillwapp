@@ -32,6 +32,7 @@
   --border: 0 0 0 / 0.08;
   --ring: 230 0 126;
   --radius: 0.75rem;
+  --bottom-nav-height: 4.25rem;
 
   font: 16px/1.45 var(--font-body), system-ui, sans-serif;
   letter-spacing: -0.01em;
@@ -44,12 +45,20 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 #root {
   min-height: 100dvh;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 body {
   margin: 0;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 .font-display,

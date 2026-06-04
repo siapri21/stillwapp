@@ -6,7 +6,7 @@ import { NotificationLink } from './NotificationLink.tsx'
 export function MobileTopBar() {
   return (
     <header className="sticky top-0 z-30 border-b border-black/10 bg-[var(--sw-bg)]/95 backdrop-blur lg:hidden">
-      <div className="mx-auto flex max-w-6xl items-center gap-2 px-4 py-3 md:px-6">
+      <div className="mx-auto flex w-full max-w-6xl min-w-0 items-center gap-1.5 px-3 py-2.5 sm:gap-2 sm:px-4 sm:py-3 md:px-6">
         <Link to="/" className="shrink-0">
           <img src={assetUrl('logoskillwapp.png')} alt="SkillWapp" className="h-10 w-12" />
         </Link>

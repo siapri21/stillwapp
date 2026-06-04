@@ -11,14 +11,14 @@ type PageMainProps = {
  */
 export function PageMain({ children, className = '' }: PageMainProps) {
   return (
-    <main
+    <div
       className={[
-        'mx-auto w-full max-w-6xl px-4 pb-28 pt-4 md:px-6',
-        'lg:mx-0 lg:max-w-none lg:px-0 lg:pb-12 lg:pt-6',
+        'mx-auto w-full max-w-6xl px-4 pt-4 md:px-6',
+        'lg:mx-0 lg:max-w-none lg:px-0 lg:pt-6',
         className,
       ].join(' ')}
     >
       {children}
-    </main>
+    </div>
   )
 }

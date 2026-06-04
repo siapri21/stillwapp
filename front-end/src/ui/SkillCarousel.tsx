@@ -42,7 +42,7 @@ export function SkillCarousel({ children }: SkillCarouselProps) {
       <div
         ref={trackRef}
         onScroll={updateArrows}
-        className="-mx-4 flex gap-4 overflow-x-auto scroll-smooth px-4 pb-2 [scrollbar-width:none] lg:mx-0 lg:px-0 lg:gap-5 [&::-webkit-scrollbar]:hidden"
+        className="flex gap-4 overflow-x-auto overscroll-x-contain scroll-smooth pb-2 [scrollbar-width:none] lg:gap-5 [&::-webkit-scrollbar]:hidden"
       >
         {children}
       </div>
